@@ -122,7 +122,10 @@ class _HomeScreenState extends State<HomeScreen> {
                         ), // icon
                         Text(
                           'Donate ?',
-                          style: TextStyle(fontWeight: FontWeight.bold),
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
                         ), // text
                       ],
                     ),
@@ -236,8 +239,7 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
-  Future<Response> createPaymentIntent(
-      String amount, String currency) async {
+  Future<Response> createPaymentIntent(String amount, String currency) async {
     try {
       //Request body
       final body = <String, dynamic>{
@@ -255,7 +257,7 @@ class _HomeScreenState extends State<HomeScreen> {
         body: body,
       );*/
 
-      return HttpRequests.post(
+      return HttpRequests.postWithoutApi(
         'https://api.stripe.com/v1/payment_intents',
         body,
         {

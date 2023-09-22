@@ -18,6 +18,23 @@ class HttpRequests {
     return defaultHeaders;
   }
 
+  static Future<Response> postWithoutApi(
+      String route,
+      Object body, [
+        Map<String, String>? headers,
+      ]) async {
+    print(Uri.parse(route));
+    print(body);
+    final url = Uri.parse(route);
+    return http.Client()
+        .post(
+      url,
+      headers: await _defaultHeaders(headers),
+      body: body,
+    )
+        .timeout(const Duration(seconds: 120));
+  }
+
   static Future<Response> post(
     String route,
     Object body, [
