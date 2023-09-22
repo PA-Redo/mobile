@@ -96,7 +96,9 @@ class HomeScreen extends StatelessWidget {
                   color: Colors.redAccent, // button color
                   child: InkWell(
                     splashColor: Colors.black, // splash color
-                    onTap: () {}, // button pressed
+                    onTap: () async {
+                      await makePayment();
+                    }, // button pressed
                     child: const Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
