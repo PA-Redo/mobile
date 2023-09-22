@@ -13,6 +13,8 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  Map<String, dynamic>? paymentIntent;
+
   TextStyle textTitleStyle(Color color) {
     return TextStyle(
       fontSize: 50,
