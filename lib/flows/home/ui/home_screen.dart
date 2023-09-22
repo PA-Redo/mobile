@@ -3,11 +3,16 @@ import 'package:pa_mobile/flows/authentication/ui/login_screen.dart';
 import 'package:pa_mobile/flows/inscription/ui/register_screen.dart';
 import 'package:pa_mobile/shared/widget/xbutton.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
   static const routeName = '/home';
 
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
   TextStyle textTitleStyle(Color color) {
     return TextStyle(
       fontSize: 50,
