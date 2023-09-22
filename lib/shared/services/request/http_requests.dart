@@ -18,16 +18,21 @@ class HttpRequests {
     return defaultHeaders;
   }
 
-  static Future<Response> post(String route, Object body,
-      [Map<String, String>? headers]) async {
+  static Future<Response> post(
+    String route,
+    Object body, [
+    Map<String, String>? headers,
+  ]) async {
     print(Uri.parse(Environment.apiURL + route));
     print(body);
     final url = Uri.parse(Environment.apiURL + route);
-    return http.Client().post(
-      url,
-      headers: await _defaultHeaders(headers),
-      body: body,
-    ).timeout(const Duration(seconds: 120));
+    return http.Client()
+        .post(
+          url,
+          headers: await _defaultHeaders(headers),
+          body: body,
+        )
+        .timeout(const Duration(seconds: 120));
   }
 
   static Future<Response> delete(
@@ -46,8 +51,10 @@ class HttpRequests {
         .timeout(const Duration(seconds: 120));
   }
 
-  static Future<Response> get(String route,
-      [Map<String, String>? headers]) async {
+  static Future<Response> get(
+    String route, [
+    Map<String, String>? headers,
+  ]) async {
     final url = Uri.parse(Environment.apiURL + route);
     print(url);
     return http
@@ -58,8 +65,11 @@ class HttpRequests {
         .timeout(const Duration(seconds: 120));
   }
 
-  static Future<Response> put(String route, Object body,
-      [Map<String, String>? headers]) async {
+  static Future<Response> put(
+    String route,
+    Object body, [
+    Map<String, String>? headers,
+  ]) async {
     final url = Uri.parse(Environment.apiURL + route);
     return http
         .put(

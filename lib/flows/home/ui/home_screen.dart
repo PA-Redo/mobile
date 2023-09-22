@@ -1,7 +1,12 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
+import 'package:http/http.dart';
 import 'package:pa_mobile/flows/authentication/ui/login_screen.dart';
 import 'package:pa_mobile/flows/inscription/ui/register_screen.dart';
+import 'package:pa_mobile/shared/services/request/http_requests.dart';
 import 'package:pa_mobile/shared/widget/xbutton.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -14,7 +19,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  Map<String, String>? paymentIntent;
+  Map<String, dynamic>? paymentIntent;
 
   TextStyle textTitleStyle(Color color) {
     return TextStyle(
@@ -161,43 +166,48 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Future<void> makePayment() async {
     try {
-      paymentIntent = await createPaymentIntent('100', 'EUR');
+      final tt = (await createPaymentIntent('10', 'EUR')).body;
+      paymentIntent = jsonDecode(tt) as Map<String, dynamic>;
 
       //STEP 2: Initialize Payment Sheet
       await Stripe.instance
           .initPaymentSheet(
-          paymentSheetParameters: SetupPaymentSheetParameters(
-              paymentIntentClientSecret: paymentIntent!['client_secret'], //Gotten from payment intent
+            paymentSheetParameters: SetupPaymentSheetParameters(
+              paymentIntentClientSecret:
+                  paymentIntent!['client_secret'] as String,
+              //Gotten from payment intent
               style: ThemeMode.dark,
-              merchantDisplayName: 'Ikay'))
+              merchantDisplayName: 'Ikay',
+            ),
+          )
           .then((value) {});
 
       //STEP 3: Display Payment sheet
-      displayPaymentSheet();
+      await displayPaymentSheet();
     } catch (err) {
       throw Exception(err);
     }
   }
 
-  displayPaymentSheet() async {
+  Future<void> displayPaymentSheet() async {
     try {
       await Stripe.instance.presentPaymentSheet().then((value) {
         showDialog(
             context: context,
-            builder: (_) => AlertDialog(
-              content: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Icon(
-                    Icons.check_circle,
-                    color: Colors.green,
-                    size: 100.0,
+            builder: (_) => const AlertDialog(
+                  content: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(
+                        Icons.check_circle,
+                        color: Colors.green,
+                        size: 100,
+                      ),
+                      SizedBox(height: 10),
+                      Text('Payment Successful!'),
+                    ],
                   ),
-                  SizedBox(height: 10.0),
-                  Text("Payment Successful!"),
-                ],
-              ),
-            ));
+                ));
 
         paymentIntent = null;
       }).onError((error, stackTrace) {
@@ -205,17 +215,17 @@ class _HomeScreenState extends State<HomeScreen> {
       });
     } on StripeException catch (e) {
       print('Error is:---> $e');
-      AlertDialog(
+      const AlertDialog(
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             Row(
-              children: const [
+              children: [
                 Icon(
                   Icons.cancel,
                   color: Colors.red,
                 ),
-                Text("Payment Failed"),
+                Text('Payment Failed'),
               ],
             ),
           ],
@@ -226,30 +236,39 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
-  Future<Map<String, String>> createPaymentIntent(String amount, String currency) async {
+  Future<Response> createPaymentIntent(
+      String amount, String currency) async {
     try {
       //Request body
-      Map<String, dynamic> body = {
+      final body = <String, dynamic>{
         'amount': calculateAmount(amount),
         'currency': currency,
       };
 
       //Make post request to Stripe
-      var response = await http.post(
+      /*var response = await http.post(
         Uri.parse('https://api.stripe.com/v1/payment_intents'),
         headers: {
           'Authorization': 'Bearer ${dotenv.env['STRIPE_SECRET']}',
           'Content-Type': 'application/x-www-form-urlencoded'
         },
         body: body,
+      );*/
+
+      return HttpRequests.post(
+        'https://api.stripe.com/v1/payment_intents',
+        body,
+        {
+          'Authorization': 'Bearer ${dotenv.env['STRIPE_SECRET']}',
+          'Content-Type': 'application/x-www-form-urlencoded'
+        },
       );
-      return json.decode(response.body);
     } catch (err) {
       throw Exception(err.toString());
     }
   }
 
-  calculateAmount(String amount) {
+  String calculateAmount(String amount) {
     final calculatedAmout = (int.parse(amount)) * 100;
     return calculatedAmout.toString();
   }
