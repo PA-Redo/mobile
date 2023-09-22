@@ -44,7 +44,6 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
       body: Container(
         color: Colors.white,
         padding: const EdgeInsets.all(20),
@@ -60,12 +59,13 @@ class HomeScreen extends StatelessWidget {
                       backgroundColor: Colors.black,
                       child: CircleAvatar(
                         radius: 78,
-                        backgroundImage: AssetImage('assets/images/drapeau.jpeg'),
+                        backgroundImage:
+                            AssetImage('assets/images/drapeau.jpeg'),
                       ),
                     ),
                     Text(
-                        'CROIX',
-                        style: textTitleStyle(Colors.black)
+                      'CROIX',
+                      style: textTitleStyle(Colors.black),
                     ),
                     Text(
                       'ROUGE',
@@ -89,33 +89,59 @@ class HomeScreen extends StatelessWidget {
                 ),
               ),
             ),
-            actionDecorator(
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: XButton(
-                        borderRadius: 0,
-                        color: Colors.redAccent,
-                        onPressed: () => onRegister(context),
-                        child: const Text(
-                          "S'inscrire",
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      ),
+            SizedBox.fromSize(
+              size: const Size(150, 150), // button width and height
+              child: ClipOval(
+                child: Material(
+                  color: Colors.redAccent, // button color
+                  child: InkWell(
+                    splashColor: Colors.black, // splash color
+                    onTap: () {}, // button pressed
+                    child: const Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Icon(
+                          Icons.favorite,
+                          color: Colors.white,
+                          size: 100,
+                        ), // icon
+                        Text(
+                          'Donate ?',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ), // text
+                      ],
                     ),
-                    Expanded(
-                      child: XButton(
-                        borderRadius: 0,
-                        color: Colors.white,
-                        onPressed: () => onConnect(context),
-                        child: const Text(
-                          'Se connecter',
-                          style: TextStyle(color: Colors.black),
-                        ),
-                      ),
-                    ),
-                  ],
+                  ),
                 ),
+              ),
+            ),
+            actionDecorator(
+              child: Row(
+                children: [
+                  Expanded(
+                    child: XButton(
+                      borderRadius: 0,
+                      color: Colors.redAccent,
+                      onPressed: () => onRegister(context),
+                      child: const Text(
+                        "S'inscrire",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: XButton(
+                      borderRadius: 0,
+                      color: Colors.white,
+                      onPressed: () => onConnect(context),
+                      child: const Text(
+                        'Se connecter',
+                        style: TextStyle(color: Colors.black),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ],
         ),
