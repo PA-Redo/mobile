@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:pa_mobile/flows/authentication/ui/login_screen.dart';
 import 'package:pa_mobile/flows/inscription/ui/register_screen.dart';
 import 'package:pa_mobile/shared/widget/xbutton.dart';
@@ -226,7 +227,7 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
-  createPaymentIntent(String amount, String currency) async {
+  Future<Map<String, dynamic>> createPaymentIntent(String amount, String currency) async {
     try {
       //Request body
       Map<String, dynamic> body = {
