@@ -14,7 +14,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  Map<String, dynamic>? paymentIntent;
+  Map<String, String>? paymentIntent;
 
   TextStyle textTitleStyle(Color color) {
     return TextStyle(
@@ -167,8 +167,7 @@ class _HomeScreenState extends State<HomeScreen> {
       await Stripe.instance
           .initPaymentSheet(
           paymentSheetParameters: SetupPaymentSheetParameters(
-              paymentIntentClientSecret: paymentIntent![
-              'client_secret'], //Gotten from payment intent
+              paymentIntentClientSecret: paymentIntent!['client_secret'], //Gotten from payment intent
               style: ThemeMode.dark,
               merchantDisplayName: 'Ikay'))
           .then((value) {});
@@ -227,7 +226,7 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
-  Future<Map<String, dynamic>> createPaymentIntent(String amount, String currency) async {
+  Future<Map<String, String>> createPaymentIntent(String amount, String currency) async {
     try {
       //Request body
       Map<String, dynamic> body = {
