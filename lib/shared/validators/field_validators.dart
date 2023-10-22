@@ -26,4 +26,12 @@ class FieldValidators {
     MinLengthValidator(15, errorText: 'Un numéro de travailleur social doit contenir au moins 15 chiffres'),
     MaxLengthValidator(15, errorText: 'Un numéro de travailleur social doit contenir au plus 15 chiffres'),
   ]);
+
+  static FieldValidator<dynamic> get amountValidator => MultiValidator([
+    RequiredValidator(errorText: 'Un montant est requis'),
+    MinLengthValidator(1, errorText: 'Le montant minimum est de 1€'),
+    MaxLengthValidator(4, errorText: 'Le montant maximum est de 9999€'),
+    // ne pas authoriser le zero
+    PatternValidator(r'^(?!0+(?:\.0+)?$)(?:[1-9]\d*|0)(?:\.\d+)?$', errorText: 'Le montant ne peut pas être égal à 0€'),
+  ]);
 }

@@ -1,12 +1,9 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:flutter_stripe/flutter_stripe.dart';
-import 'package:http/http.dart';
 import 'package:pa_mobile/flows/authentication/ui/login_screen.dart';
+import 'package:pa_mobile/flows/donation/ui/donation_screen.dart';
 import 'package:pa_mobile/flows/inscription/ui/register_screen.dart';
-import 'package:pa_mobile/shared/services/request/http_requests.dart';
 import 'package:pa_mobile/shared/widget/xbutton.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -19,8 +16,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  Map<String, dynamic>? paymentIntent;
-
   TextStyle textTitleStyle(Color color) {
     return TextStyle(
       fontSize: 50,
@@ -73,7 +68,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       child: CircleAvatar(
                         radius: 78,
                         backgroundImage:
-                            AssetImage('assets/images/drapeau.jpeg'),
+                        AssetImage('assets/images/drapeau.jpeg'),
                       ),
                     ),
                     Text(
@@ -109,8 +104,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   color: Colors.redAccent, // button color
                   child: InkWell(
                     splashColor: Colors.black, // splash color
-                    onTap: () async {
-                      await makePayment();
+                    onTap: () {
+                      onDonate(context);
                     }, // button pressed
                     child: const Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -119,14 +114,14 @@ class _HomeScreenState extends State<HomeScreen> {
                           Icons.favorite,
                           color: Colors.white,
                           size: 100,
-                        ), // icon
+                        ),
                         Text(
-                          'Donate ?',
+                          'Donner ?',
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             color: Colors.white,
                           ),
-                        ), // text
+                        ),
                       ],
                     ),
                   ),
@@ -167,112 +162,12 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Future<void> makePayment() async {
-    try {
-      final tt = (await createPaymentIntent('10', 'EUR')).body;
-      paymentIntent = jsonDecode(tt) as Map<String, dynamic>;
 
-      //STEP 2: Initialize Payment Sheet
-      await Stripe.instance
-          .initPaymentSheet(
-            paymentSheetParameters: SetupPaymentSheetParameters(
-              paymentIntentClientSecret:
-                  paymentIntent!['client_secret'] as String,
-              //Gotten from payment intent
-              style: ThemeMode.dark,
-              merchantDisplayName: 'Ikay',
-            ),
-          )
-          .then((value) {});
-
-      //STEP 3: Display Payment sheet
-      await displayPaymentSheet();
-    } catch (err) {
-      throw Exception(err);
-    }
-  }
-
-  Future<void> displayPaymentSheet() async {
-    try {
-      await Stripe.instance.presentPaymentSheet().then((value) {
-        showDialog(
-            context: context,
-            builder: (_) => const AlertDialog(
-                  content: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Icon(
-                        Icons.check_circle,
-                        color: Colors.green,
-                        size: 100,
-                      ),
-                      SizedBox(height: 10),
-                      Text('Payment Successful!'),
-                    ],
-                  ),
-                ));
-
-        paymentIntent = null;
-      }).onError((error, stackTrace) {
-        throw Exception(error);
-      });
-    } on StripeException catch (e) {
-      print('Error is:---> $e');
-      const AlertDialog(
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Row(
-              children: [
-                Icon(
-                  Icons.cancel,
-                  color: Colors.red,
-                ),
-                Text('Payment Failed'),
-              ],
-            ),
-          ],
-        ),
-      );
-    } catch (e) {
-      print('$e');
-    }
-  }
-
-  Future<Response> createPaymentIntent(String amount, String currency) async {
-    try {
-      //Request body
-      final body = <String, dynamic>{
-        'amount': calculateAmount(amount),
-        'currency': currency,
-      };
-
-      //Make post request to Stripe
-      /*var response = await http.post(
-        Uri.parse('https://api.stripe.com/v1/payment_intents'),
-        headers: {
-          'Authorization': 'Bearer ${dotenv.env['STRIPE_SECRET']}',
-          'Content-Type': 'application/x-www-form-urlencoded'
-        },
-        body: body,
-      );*/
-
-      return HttpRequests.postWithoutApi(
-        'https://api.stripe.com/v1/payment_intents',
-        body,
-        {
-          'Authorization': 'Bearer ${dotenv.env['STRIPE_SECRET']}',
-          'Content-Type': 'application/x-www-form-urlencoded'
-        },
-      );
-    } catch (err) {
-      throw Exception(err.toString());
-    }
-  }
-
-  String calculateAmount(String amount) {
-    final calculatedAmout = (int.parse(amount)) * 100;
-    return calculatedAmout.toString();
+  void onDonate(BuildContext context) {
+    Navigator.pushNamed(
+        context,
+        DonationScreen.routeName,
+    );
   }
 
   void onRegister(BuildContext context) {
