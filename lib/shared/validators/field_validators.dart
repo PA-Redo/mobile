@@ -1,6 +1,24 @@
 import 'package:form_field_validator/form_field_validator.dart';
 
 class FieldValidators {
+  static FieldValidator<dynamic> get cityValidator => MultiValidator([
+    RequiredValidator(errorText: 'Ville est requise'),
+    MinLengthValidator(2, errorText: 'Une ville doit contenir au moins 2 caractères'),
+    MaxLengthValidator(50, errorText: 'Une ville doit contenir au plus 50 caractères'),
+  ]);
+
+  static FieldValidator<dynamic> get postalCodeValidator => MultiValidator([
+    RequiredValidator(errorText: 'Code postal est requis'),
+    MinLengthValidator(5, errorText: 'Un code postal doit contenir au moins 5 chiffres'),
+    MaxLengthValidator(5, errorText: 'Un code postal doit contenir au plus 5 chiffres'),
+  ]);
+
+  static FieldValidator<dynamic> get addressValidator => MultiValidator([
+    RequiredValidator(errorText: 'Adresse est requise'),
+    MinLengthValidator(2, errorText: 'Une adresse doit contenir au moins 2 caractères'),
+    MaxLengthValidator(50, errorText: 'Une adresse doit contenir au plus 50 caractères'),
+  ]);
+
   static FieldValidator<dynamic> get emailValidator => MultiValidator([
     RequiredValidator(errorText: 'Email est requis'),
     EmailValidator(errorText: 'Email n\'est pas valide'),

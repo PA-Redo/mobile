@@ -9,16 +9,19 @@ class DonationScreen extends StatefulWidget {
 
   static const routeName = '/donation';
 
-
   @override
   State<DonationScreen> createState() => _DonationScreenState();
 }
-//todo faire un formulaire pour les information necessaire a la donation
-//todo faire un bouton pour lancer la fonction makePayment
+
 class _DonationScreenState extends State<DonationScreen> {
   TextEditingController emailController = TextEditingController();
   TextEditingController firstNameController = TextEditingController();
   TextEditingController lastNameController = TextEditingController();
+  TextEditingController addressController = TextEditingController();
+  TextEditingController cityController = TextEditingController();
+  TextEditingController civilityController = TextEditingController();
+  TextEditingController countryController = TextEditingController();
+  TextEditingController zipCodeController = TextEditingController();
   int amount = 0;
   int _index = 0;
   final _amountFormKey = GlobalKey<FormState>();
@@ -105,7 +108,7 @@ class _DonationScreenState extends State<DonationScreen> {
                       child: TextFormField(
                         decoration: const InputDecoration(
                           labelText: 'Montant',
-                          icon: Icon(Icons.monetization_on),
+                          icon: Icon(Icons.euro),
                           fillColor: Color(0xfff3f3f4),
                           filled: true,
                           border: OutlineInputBorder(),
@@ -160,19 +163,32 @@ class _DonationScreenState extends State<DonationScreen> {
                     Padding(
                       //civilite choose between M, Mme, Mlle
                       padding: const EdgeInsets.all(4),
-                      child: TextFormField(
+                      child: DropdownButtonFormField(
                         decoration: const InputDecoration(
                           labelText: 'Civilité',
                           icon: Icon(Icons.person),
                           fillColor: Color(0xfff3f3f4),
                           filled: true,
                           border: OutlineInputBorder(),
+                        ), items: const [
+                        DropdownMenuItem(
+                          value: 'M',
+                          child: Text('M'),
                         ),
-                        keyboardType: TextInputType.name,
-                        textInputAction: TextInputAction.next,
-                        validator: FieldValidators.nameValidator,
-                        focusNode: _focusNodes[2],
+                        DropdownMenuItem(
+                          value: 'Mme',
+                          child: Text('Mme'),
+                        ),
+                        DropdownMenuItem(
+                          value: 'Mlle',
+                          child: Text('Mlle'),
+                        ),
+                      ],
+                        onChanged: (Object? value) {
+                          civilityController.text = value as String;
+                        },
                       ),
+
                     ),
                     Padding(
                       padding: const EdgeInsets.all(4),
@@ -220,8 +236,9 @@ class _DonationScreenState extends State<DonationScreen> {
                         ),
                         keyboardType: TextInputType.streetAddress,
                         textInputAction: TextInputAction.next,
-                        validator: FieldValidators.nameValidator,
+                        validator: FieldValidators.addressValidator,
                         focusNode: _focusNodes[5],
+                        controller: addressController,
                       ),
                     ),
                     Padding(
@@ -236,8 +253,13 @@ class _DonationScreenState extends State<DonationScreen> {
                         ),
                         keyboardType: TextInputType.number,
                         textInputAction: TextInputAction.next,
-                        validator: FieldValidators.nameValidator,
+                        validator: FieldValidators.postalCodeValidator,
                         focusNode: _focusNodes[6],
+                        inputFormatters: [
+                          FilteringTextInputFormatter.digitsOnly,
+                          LengthLimitingTextInputFormatter(5),
+                        ],
+                        controller: zipCodeController,
                       ),
                     ),
                     Padding(
@@ -252,24 +274,37 @@ class _DonationScreenState extends State<DonationScreen> {
                         ),
                         keyboardType: TextInputType.name,
                         textInputAction: TextInputAction.next,
-                        validator: FieldValidators.nameValidator,
+                        validator: FieldValidators.cityValidator,
                         focusNode: _focusNodes[7],
+                        controller: cityController,
                       ),
                     ),
                     Padding(
                       padding: const EdgeInsets.all(4),
-                      child: TextFormField(
+                      child: DropdownButtonFormField(
                         decoration: const InputDecoration(
                           labelText: 'Pays',
                           icon: Icon(Icons.home),
                           fillColor: Color(0xfff3f3f4),
                           filled: true,
                           border: OutlineInputBorder(),
+                        ), items: const [
+                        DropdownMenuItem(
+                          value: 'France',
+                          child: Text('France'),
                         ),
-                        keyboardType: TextInputType.name,
-                        textInputAction: TextInputAction.next,
-                        validator: FieldValidators.nameValidator,
-                        focusNode: _focusNodes[8],
+                        DropdownMenuItem(
+                          value: 'Belgique',
+                          child: Text('Belgique'),
+                        ),
+                        DropdownMenuItem(
+                          value: 'Suisse',
+                          child: Text('Suisse'),
+                        ),
+                      ],
+                        onChanged: (Object? value) {
+                          countryController.text = value as String;
+                        },
                       ),
                     ),
                   ],
@@ -330,6 +365,9 @@ class _DonationScreenState extends State<DonationScreen> {
   }
 
   Future<void> makePayment() async {
+    if (!isAmountFormValid() || !isPersonalInformationFormValid()) {
+      return;
+    }
     await Navigator.push(
       context,
       MaterialPageRoute(
@@ -339,6 +377,11 @@ class _DonationScreenState extends State<DonationScreen> {
             email: emailController.text,
             firstName: firstNameController.text,
             lastName: lastNameController.text,
+            address: addressController.text,
+            city: cityController.text,
+            civility: civilityController.text,
+            country: countryController.text,
+            zipCode: zipCodeController.text,
           ),
         ),
       ),
