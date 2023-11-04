@@ -18,6 +18,8 @@ class ChatListScreen extends StatefulWidget {
 }
 
 class _ChatListScreenState extends State<ChatListScreen> {
+  final _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
@@ -116,29 +118,66 @@ class _ChatListScreenState extends State<ChatListScreen> {
             ),
             const SizedBox(height: 60),
             GestureDetector(
-              onTap: () {
-                //todo faire apparaitre un pop up pour faire une demande
-
-              },
-              child: const Column(
-                children: [
-                  Text(
-                    'Faire une demande',
-                    style: TextStyle(
-                      fontSize: 18,
+                onTap: openDialogChatCreation,
+                child: const Column(
+                  children: [
+                    Text(
+                      'Faire une demande',
+                      style: TextStyle(
+                        fontSize: 18,
+                      ),
                     ),
-                  ),
-                  Icon(
-                    Icons.add_circle_outline_outlined,
-                    color: Colors.redAccent,
-                    size: 50,
-                  )
-                ],
-              )
-            ),
+                    Icon(
+                      Icons.add_circle_outline_outlined,
+                      color: Colors.redAccent,
+                      size: 50,
+                    )
+                  ],
+                )),
           ],
         ),
       ),
     );
   }
+
+  Future<void> openDialogChatCreation() => showDialog<String>(
+        context: context,
+        builder: (context) => AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
+          title: const Text('Faire une demande de chat'),
+          content: Form(
+            key: _formKey,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                //todo faire le champ de saisie pour le nom de la conversation
+              TextFormField(
+                decoration: const InputDecoration(
+                  labelText: 'Nom de la conversation',
+                  hintText: 'Entrez un nom de conversation',
+                ),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Veuillez entrer un nom de conversation';
+                  }
+                  return null;
+                },
+              )
+                //todo faire le champ de saisie pour le message de départ de la conv
+              ],
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => {
+                Navigator.pop(context),
+                //todo faire l'appel api pour créer une conversation
+              },
+              child: const Text('Demander'),
+            ),
+          ],
+        ),
+      );
 }
