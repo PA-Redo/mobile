@@ -1,6 +1,11 @@
 import 'package:form_field_validator/form_field_validator.dart';
 
 class FieldValidators {
+
+  static FieldValidator<dynamic> get dropdownValidator => MultiValidator([
+    RequiredValidator(errorText: 'Veuillez choisir une option'),
+  ]);
+
   static FieldValidator<dynamic> get cityValidator => MultiValidator([
     RequiredValidator(errorText: 'Ville est requise'),
     MinLengthValidator(2, errorText: 'Une ville doit contenir au moins 2 caractères'),
