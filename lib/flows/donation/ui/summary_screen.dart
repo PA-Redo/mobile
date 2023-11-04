@@ -5,6 +5,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:http/http.dart';
 import 'package:pa_mobile/flows/donation/ui/donation.dart';
+import 'package:pa_mobile/flows/home/ui/home_screen.dart';
 
 import 'package:pa_mobile/shared/services/request/http_requests.dart';
 import 'package:pa_mobile/shared/widget/xbutton.dart';
@@ -249,21 +250,27 @@ class _SummaryScreenState extends State<SummaryScreen> {
     try {
       await Stripe.instance.presentPaymentSheet().then((value) {
         showDialog(
-            context: context,
-            builder: (_) => const AlertDialog(
-                  content: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Icon(
-                        Icons.check_circle,
-                        color: Colors.green,
-                        size: 100,
-                      ),
-                      SizedBox(height: 10),
-                      Text('Payment Successful!'),
-                    ],
-                  ),
-                ));
+          context: context,
+          builder: (_) => const AlertDialog(
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(
+                  Icons.check_circle,
+                  color: Colors.green,
+                  size: 100,
+                ),
+                SizedBox(height: 10),
+                Text('Payment Successful!'),
+              ],
+            ),
+          ),
+        ).then(
+          (value) => Navigator.of(context).pushNamedAndRemoveUntil(
+            HomeScreen.routeName,
+            (route) => false,
+          ),
+        );
 
         paymentIntent = null;
       }).onError((error, stackTrace) {
