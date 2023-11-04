@@ -8,6 +8,7 @@ import 'package:pa_mobile/flows/event/ui/event_calendar_screen.dart';
 import 'package:pa_mobile/flows/account/logic/account.dart';
 import 'package:pa_mobile/flows/home/ui/home_screen.dart';
 import 'package:pa_mobile/shared/services/storage/jwt_secure_storage.dart';
+import 'package:pa_mobile/shared/services/storage/secure_storage.dart';
 import 'package:pa_mobile/shared/services/storage/stay_login_secure_storage.dart';
 import 'package:pa_mobile/shared/widget/disable_focus_node.dart';
 
@@ -322,6 +323,8 @@ class _AccountScreenState extends State<AccountScreen> {
   Future<BeneficiaryResponseDto> getBeneficiary() async {
     final res = await Future.wait([Account.getBeneficiaryInfo()]);
     final beneficiary = res[0];
+    await SecureStorage.set('benef_name', beneficiary.username);
+    await SecureStorage.set('benef_id', beneficiary.id.toString());
     localUnit = await Account.getLocalUnit(beneficiary.localUnitId.toString());
     return beneficiary;
   }

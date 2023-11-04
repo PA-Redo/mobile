@@ -1,18 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pa_mobile/flows/account/ui/account_detail_screen.dart';
-import 'package:pa_mobile/flows/chat/chat_screen.dart';
-import 'package:pa_mobile/flows/donation/ui/donation_screen.dart';
-import 'package:pa_mobile/flows/donation/ui/summary_screen.dart';
-import 'package:pa_mobile/flows/home/ui/home_screen.dart';
-import 'package:pa_mobile/flows/inscription/ui/register_screen.dart';
-import 'package:pa_mobile/flows/authentication/ui/login_screen.dart';
 import 'package:pa_mobile/flows/account/ui/account_screen.dart';
 import 'package:pa_mobile/flows/account/ui/modify_profile_screen.dart';
+import 'package:pa_mobile/flows/authentication/ui/login_screen.dart';
+import 'package:pa_mobile/flows/chat/chat_screen.dart';
+import 'package:pa_mobile/flows/donation/ui/donation_screen.dart';
+import 'package:pa_mobile/flows/event/ui/event_calendar_screen.dart';
+import 'package:pa_mobile/flows/home/ui/home_screen.dart';
+import 'package:pa_mobile/flows/inscription/ui/register_screen.dart';
 import 'package:pa_mobile/flows/inscription/ui/register_success_screen.dart';
 import 'package:pa_mobile/l10n/l10n.dart';
-
-import 'flows/event/ui/event_calendar_screen.dart';
 
 class MyApp extends StatefulWidget {
   const MyApp({super.key, required this.isLogged});
@@ -58,7 +56,7 @@ class _MyAppState extends State<MyApp> {
         RegisterSuccessScreen.routeName: (context) =>
             const RegisterSuccessScreen(),
         DonationScreen.routeName: (context) => const DonationScreen(),
-        ChatScreen.routeName: (context) => ChatScreen(),
+        ChatScreen.routeName: (context) => const ChatScreen(),
       },
     );
   }

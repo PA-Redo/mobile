@@ -6,7 +6,7 @@ class Chat extends Encodable {
   int conversationId;
   String convname;
 
-  Chat(this.conversationId, this.convname);
+  Chat({required this.conversationId, required this.convname});
 
   Map<String, dynamic> toJson() {
     return {
@@ -18,6 +18,16 @@ class Chat extends Encodable {
   @override
   String encode() {
     return jsonEncode(toJson());
+  }
+
+  static Chat decode(Map<String, dynamic> element) {
+    final conversationId = element['conversationId'] as int;
+    final convname = utf8.decode((element['convname'] as String).runes.toList());
+
+    return Chat(
+      conversationId: conversationId,
+      convname: convname,
+    );
   }
 
 }

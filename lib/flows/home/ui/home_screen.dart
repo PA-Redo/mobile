@@ -98,15 +98,15 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
             SizedBox.fromSize(
-              size: const Size(150, 150), // button width and height
+              size: const Size(150, 150),
               child: ClipOval(
                 child: Material(
-                  color: Colors.redAccent, // button color
+                  color: Colors.redAccent,
                   child: InkWell(
-                    splashColor: Colors.black, // splash color
+                    splashColor: Colors.black,
                     onTap: () {
                       onDonate(context);
-                    }, // button pressed
+                    },
                     child: const Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[

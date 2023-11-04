@@ -1,7 +1,11 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:pa_mobile/core/model/chat.dart';
 import 'package:pa_mobile/flows/authentication/ui/login_screen.dart';
+import 'package:pa_mobile/shared/services/request/http_requests.dart';
 import 'package:pa_mobile/shared/services/storage/jwt_secure_storage.dart';
+import 'package:pa_mobile/shared/services/storage/secure_storage.dart';
 import 'package:pa_mobile/shared/services/storage/stay_login_secure_storage.dart';
 
 class ChatListScreen extends StatefulWidget {
@@ -56,45 +60,82 @@ class _ChatListScreenState extends State<ChatListScreen> {
     );
   }
 
+  //todo faire l'appel api pour récupérer les conversations
   Future<List<Chat>> loadChats() {
-    return Future.value([
-      Chat(1, 'test'),
-      Chat(2, 'test2'),
-    ]);
+    /*return Future.value([
+      Chat(
+        conversationId: 1,
+        convname: 'Conversation 1',
+      ),
+      Chat(
+        conversationId: 2,
+        convname: 'Conversation 2',
+      ),
+      Chat(
+        conversationId: 3,
+        convname: 'Conversation 3',
+      ),
+    ]);*/
+    return SecureStorage.get('benef_id').then((value) => getChats(value!));
+  }
+
+  static Future<List<Chat>> getChats(String benefId) async {
+    final response = await HttpRequests.get('/chat/conversations/$benefId');
+
+    switch (response.statusCode) {
+      case 200:
+        final list = <Chat>[];
+        for (final element in jsonDecode(response.body) as List<dynamic>) {
+          list.add(Chat.decode(element as Map<String, dynamic>));
+        }
+        print(list);
+        return list;
+      default:
+        throw Exception('Error${response.statusCode}');
+    }
   }
 
   Widget _buildEmpty() {
-    return const Scaffold(
+    return Scaffold(
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(
+            const Icon(
               Icons.chat,
               color: Colors.redAccent,
               size: 150,
             ),
-            SizedBox(height: 50),
-            Text(
-              'Vous n\'avez pas encore de conversation',
+            const SizedBox(height: 50),
+            const Text(
+              "Vous n'avez pas encore de conversation",
               style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            SizedBox(height: 60),
-            //icon pour ajouter un conversation
-            Text(
-              'Faire une demande',
-              style: TextStyle(
-                fontSize: 18,
-              ),
+            const SizedBox(height: 60),
+            GestureDetector(
+              onTap: () {
+                //todo faire apparaitre un pop up pour faire une demande
+
+              },
+              child: const Column(
+                children: [
+                  Text(
+                    'Faire une demande',
+                    style: TextStyle(
+                      fontSize: 18,
+                    ),
+                  ),
+                  Icon(
+                    Icons.add_circle_outline_outlined,
+                    color: Colors.redAccent,
+                    size: 50,
+                  )
+                ],
+              )
             ),
-            Icon(
-              Icons.add_circle_outline_outlined,
-              color: Colors.redAccent,
-              size: 50,
-            )
           ],
         ),
       ),

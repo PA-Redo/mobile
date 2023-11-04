@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+//todo faire l'appel api pour récupérer les messages
 class ChatScreen extends StatefulWidget {
 
   const ChatScreen({super.key});

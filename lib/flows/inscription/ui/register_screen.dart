@@ -445,7 +445,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           child: const Text('Ajouter un membre de famille'),
                         ),
                         const SizedBox(width: 10),
-                        //see family members button
                         ElevatedButton(
                           onPressed: () async {
                             await openDialogFamilyMembers();

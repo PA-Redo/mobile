@@ -54,7 +54,6 @@ class FieldValidators {
     RequiredValidator(errorText: 'Un montant est requis'),
     MinLengthValidator(1, errorText: 'Le montant minimum est de 1€'),
     MaxLengthValidator(4, errorText: 'Le montant maximum est de 9999€'),
-    // ne pas authoriser le zero
     PatternValidator(r'^(?!0+(?:\.0+)?$)(?:[1-9]\d*|0)(?:\.\d+)?$', errorText: 'Le montant ne peut pas être égal à 0€'),
   ]);
 }

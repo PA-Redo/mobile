@@ -5,6 +5,7 @@ import 'package:pa_mobile/flows/authentication/ui/login_screen.dart';
 import 'package:pa_mobile/flows/event/logic/event.dart';
 import 'package:pa_mobile/flows/event/ui/event_detail_screen.dart';
 import 'package:pa_mobile/shared/services/storage/jwt_secure_storage.dart';
+import 'package:pa_mobile/shared/services/storage/secure_storage.dart';
 import 'package:pa_mobile/shared/services/storage/stay_login_secure_storage.dart';
 import 'package:table_calendar/table_calendar.dart';
 
@@ -48,6 +49,8 @@ class _EventScreenState extends State<EventScreen> {
     ]);
 
     beneficiary = res[0];
+    await SecureStorage.set('benef_name', beneficiary.username);
+    await SecureStorage.set('benef_id', beneficiary.id.toString());
     return EventLogic.getLocalUnitEvent(beneficiary.localUnitId.toString());
   }
 

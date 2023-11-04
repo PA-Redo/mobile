@@ -161,7 +161,6 @@ class _DonationScreenState extends State<DonationScreen> {
                       ),
                     ),
                     Padding(
-                      //civilite choose between M, Mme, Mlle
                       padding: const EdgeInsets.all(4),
                       child: DropdownButtonFormField(
                         decoration: const InputDecoration(
@@ -184,11 +183,9 @@ class _DonationScreenState extends State<DonationScreen> {
                           child: Text('Mlle'),
                         ),
                       ],
-                        //validator: FieldValidators.dropdownValidator,
                         onChanged: (Object? value) {
                           civilityController.text = value as String;
                         },
-                        //focusNode: _focusNodes[2],
                       ),
 
                     ),
