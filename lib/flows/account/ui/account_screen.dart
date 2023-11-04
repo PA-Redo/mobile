@@ -3,6 +3,7 @@ import 'package:pa_mobile/core/model/address/address_dto.dart';
 import 'package:pa_mobile/core/model/beneficiary/beneficiary_response_dto.dart';
 import 'package:pa_mobile/core/model/local_unit/local_unit_response_dto.dart';
 import 'package:pa_mobile/flows/account/ui/modify_profile_screen.dart';
+import 'package:pa_mobile/flows/chat/chat_list_screen.dart';
 import 'package:pa_mobile/flows/event/ui/event_calendar_screen.dart';
 import 'package:pa_mobile/flows/account/logic/account.dart';
 import 'package:pa_mobile/flows/home/ui/home_screen.dart';
@@ -75,6 +76,10 @@ class _AccountScreenState extends State<AccountScreen> {
             icon: Icon(Icons.person),
             label: 'Profile',
           ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.chat),
+            label: 'Chat',
+          ),
         ],
       ),
     );
@@ -85,7 +90,9 @@ class _AccountScreenState extends State<AccountScreen> {
       return const EventScreen();
     } else if (_screenIndex == 1) {
       return getProfile();
-    } else {
+    } else if (_screenIndex == 2) {
+      return const ChatListScreen();
+    }else {
       return const Text('Error');
     }
   }
@@ -194,7 +201,7 @@ class _AccountScreenState extends State<AccountScreen> {
                       ),
                       readOnly: true,
                       controller: TextEditingController(
-                        text: '${beneficiary.solde/100}€',
+                        text: '${beneficiary.solde / 100}€',
                       ),
                       focusNode: AlwaysDisabledFocusNode(),
                     ),
@@ -216,7 +223,8 @@ class _AccountScreenState extends State<AccountScreen> {
                       ),
                       readOnly: true,
                       controller: TextEditingController(
-                        text: '${beneficiary.lastName} ${beneficiary.firstName}',
+                        text:
+                            '${beneficiary.lastName} ${beneficiary.firstName}',
                       ),
                       focusNode: AlwaysDisabledFocusNode(),
                     ),
@@ -298,6 +306,8 @@ class _AccountScreenState extends State<AccountScreen> {
         title = 'Evenements';
       } else if (_screenIndex == 1) {
         title = 'Profile';
+      } else if (_screenIndex == 2) {
+        title = 'Chat';
       } else {
         title = 'Error';
       }
