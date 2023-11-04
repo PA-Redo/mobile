@@ -184,9 +184,11 @@ class _DonationScreenState extends State<DonationScreen> {
                           child: Text('Mlle'),
                         ),
                       ],
+                        //validator: FieldValidators.dropdownValidator,
                         onChanged: (Object? value) {
                           civilityController.text = value as String;
                         },
+                        //focusNode: _focusNodes[2],
                       ),
 
                     ),
@@ -305,6 +307,8 @@ class _DonationScreenState extends State<DonationScreen> {
                         onChanged: (Object? value) {
                           countryController.text = value as String;
                         },
+                        focusNode: _focusNodes[8],
+
                       ),
                     ),
                   ],
