@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:pa_mobile/core/model/beneficiary/beneficiary_response_dto.dart';
 import 'package:pa_mobile/core/model/event/EventRegistrationDTO.dart';
 import 'package:pa_mobile/core/model/event/EventResponseDTO.dart';
-import 'package:pa_mobile/core/model/volonteer/volunteer_response_dto.dart';
 import 'package:pa_mobile/shared/services/request/http_requests.dart';
 
 class EventLogic {
@@ -12,6 +11,21 @@ class EventLogic {
   static Future<List<EventResponseDTO>> getLocalUnitEvent(String id) async {
     final response = await HttpRequests.get('$eventRoot/all/$id', null);
 
+    switch (response.statusCode) {
+      case 200:
+        final list = <EventResponseDTO>[];
+        for (final element in jsonDecode(response.body) as List<dynamic>) {
+          list.add(EventResponseDTO.decode(element as Map<String, dynamic>));
+        }
+        return list;
+      default:
+        throw Exception('Error${response.statusCode}');
+    }
+  }
+
+  static Future<List<EventResponseDTO>> getLocalUnitEventOfBenef(String id, int benefId) async {
+    final response = await HttpRequests.get('$eventRoot/all/$id/$benefId', null);
+    print(response.statusCode);
     switch (response.statusCode) {
       case 200:
         final list = <EventResponseDTO>[];

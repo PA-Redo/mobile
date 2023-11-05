@@ -9,16 +9,16 @@ import 'package:pa_mobile/shared/services/storage/secure_storage.dart';
 import 'package:pa_mobile/shared/services/storage/stay_login_secure_storage.dart';
 import 'package:table_calendar/table_calendar.dart';
 
-class EventScreen extends StatefulWidget {
-  const EventScreen({super.key});
+class MyEventScreen extends StatefulWidget {
+  const MyEventScreen({super.key});
 
   static const routeName = '/event';
 
   @override
-  State<EventScreen> createState() => _EventScreenState();
+  State<MyEventScreen> createState() => _MyEventScreenState();
 }
 
-class _EventScreenState extends State<EventScreen> {
+class _MyEventScreenState extends State<MyEventScreen> {
   DateTime _selectedDay = DateTime.now();
 
   CalendarFormat _calendarFormat = CalendarFormat.month;
@@ -49,7 +49,8 @@ class _EventScreenState extends State<EventScreen> {
     beneficiary = res[0];
     await SecureStorage.set('benef_name', beneficiary.username);
     await SecureStorage.set('benef_id', beneficiary.id.toString());
-    return EventLogic.getLocalUnitEvent(beneficiary.localUnitId.toString());
+    print("object");
+    return EventLogic.getLocalUnitEventOfBenef(beneficiary.localUnitId.toString(), beneficiary.id);
   }
 
   @override
@@ -76,7 +77,7 @@ class _EventScreenState extends State<EventScreen> {
           Navigator.pushNamedAndRemoveUntil(
             context,
             LoginScreen.routeName,
-            (route) => false,
+                (route) => false,
           );
         }
         if (!snapshot.hasData) {

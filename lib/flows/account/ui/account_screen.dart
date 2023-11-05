@@ -6,6 +6,7 @@ import 'package:pa_mobile/flows/account/ui/modify_profile_screen.dart';
 import 'package:pa_mobile/flows/chat/chat_list_screen.dart';
 import 'package:pa_mobile/flows/event/ui/event_calendar_screen.dart';
 import 'package:pa_mobile/flows/account/logic/account.dart';
+import 'package:pa_mobile/flows/event/ui/event_my_calendar_screen.dart';
 import 'package:pa_mobile/flows/home/ui/home_screen.dart';
 import 'package:pa_mobile/shared/services/storage/jwt_secure_storage.dart';
 import 'package:pa_mobile/shared/services/storage/secure_storage.dart';
@@ -47,7 +48,7 @@ class _AccountScreenState extends State<AccountScreen> {
     'loading',
   );
 
-  int _screenIndex = 1;
+  int _screenIndex = 2;
   String title = 'Profile';
 
   @override
@@ -74,6 +75,10 @@ class _AccountScreenState extends State<AccountScreen> {
             label: 'Evenements',
           ),
           BottomNavigationBarItem(
+            icon: Icon(Icons.event),
+            label: 'Mes Evenements',
+          ),
+          BottomNavigationBarItem(
             icon: Icon(Icons.person),
             label: 'Profile',
           ),
@@ -90,8 +95,10 @@ class _AccountScreenState extends State<AccountScreen> {
     if (_screenIndex == 0) {
       return const EventScreen();
     } else if (_screenIndex == 1) {
-      return getProfile();
+      return const MyEventScreen();
     } else if (_screenIndex == 2) {
+      return getProfile();
+    } else if (_screenIndex == 3) {
       return const ChatListScreen();
     }else {
       return const Text('Error');
@@ -306,8 +313,10 @@ class _AccountScreenState extends State<AccountScreen> {
       if (_screenIndex == 0) {
         title = 'Evenements';
       } else if (_screenIndex == 1) {
-        title = 'Profile';
+        title = 'Mes Evenements';
       } else if (_screenIndex == 2) {
+        title = 'Profile';
+      } else if (_screenIndex == 3) {
         title = 'Chat';
       } else {
         title = 'Error';
