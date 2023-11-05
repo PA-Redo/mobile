@@ -20,6 +20,7 @@ class ChatListScreen extends StatefulWidget {
 
 class _ChatListScreenState extends State<ChatListScreen> {
   final _formKey = GlobalKey<FormState>();
+
   //controler
   final TextEditingController _controllerConvName = TextEditingController();
   final TextEditingController _controllerMessage = TextEditingController();
@@ -47,7 +48,17 @@ class _ChatListScreenState extends State<ChatListScreen> {
         if (chats.isEmpty) {
           return _buildEmpty();
         }
-        return ListView.builder(
+        return createChatView(chats);
+      },
+    );
+  }
+
+  Widget createChatView(List<Chat> chats) {
+    return Column(
+      children: [
+        ListView.builder(
+          scrollDirection: Axis.vertical,
+          shrinkWrap: true,
           itemCount: chats.length,
           itemBuilder: (BuildContext context, int index) {
             final chat = chats[index];
@@ -63,8 +74,9 @@ class _ChatListScreenState extends State<ChatListScreen> {
               },
             );
           },
-        );
-      },
+        ),
+        createNewConversation(),
+      ],
     );
   }
 
@@ -109,25 +121,30 @@ class _ChatListScreenState extends State<ChatListScreen> {
               ),
             ),
             const SizedBox(height: 60),
-            GestureDetector(
-                onTap: openDialogChatCreation,
-                child: const Column(
-                  children: [
-                    Text(
-                      'Faire une demande',
-                      style: TextStyle(
-                        fontSize: 18,
-                      ),
-                    ),
-                    Icon(
-                      Icons.add_circle_outline_outlined,
-                      color: Colors.redAccent,
-                      size: 50,
-                    )
-                  ],
-                )),
+            createNewConversation(),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget createNewConversation() {
+    return GestureDetector(
+      onTap: openDialogChatCreation,
+      child: const Column(
+        children: [
+          Text(
+            'Faire une demande',
+            style: TextStyle(
+              fontSize: 18,
+            ),
+          ),
+          Icon(
+            Icons.add_circle_outline_outlined,
+            color: Colors.redAccent,
+            size: 50,
+          )
+        ],
       ),
     );
   }
@@ -178,16 +195,14 @@ class _ChatListScreenState extends State<ChatListScreen> {
           ),
           actions: [
             TextButton(
-              onPressed: () => {
-                createChat()
-              },
+              onPressed: () => {createChat()},
               child: const Text('Demander'),
             ),
           ],
         ),
       );
 
-  Future<void> createChat() async{
+  Future<void> createChat() async {
     if (_formKey.currentState!.validate()) {
       final future = await SecureStorage.get('benef_id');
       final createChatDto = CreateChatDto(
@@ -197,6 +212,10 @@ class _ChatListScreenState extends State<ChatListScreen> {
       );
       await HttpRequests.post("/chat/conversations", createChatDto.encode());
       Navigator.pop(context);
+      setState(() {
+        _controllerConvName.clear();
+        _controllerMessage.clear();
+      });
     }
   }
 }
