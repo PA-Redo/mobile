@@ -69,7 +69,7 @@ class _ChatListScreenState extends State<ChatListScreen> {
                 Navigator.pushNamed(
                   context,
                   '/chat',
-                  arguments: chat.conversationId,
+                  arguments: chat,
                 );
               },
             );
@@ -81,13 +81,11 @@ class _ChatListScreenState extends State<ChatListScreen> {
   }
 
   Future<List<Chat>> loadChats() {
-    print("test 2222");
     return SecureStorage.get('benef_id').then((value) => getChats(value!));
   }
 
   static Future<List<Chat>> getChats(String benefId) async {
     final response = await HttpRequests.get('/chat/conversations/$benefId');
-    print("test 111111");
 
     switch (response.statusCode) {
       case 200:
