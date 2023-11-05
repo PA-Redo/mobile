@@ -21,6 +21,7 @@ class Chat extends Encodable {
   }
 
   static Chat decode(Map<String, dynamic> element) {
+    print(element);
     final conversationId = element['conversationId'] as int;
     final convname = utf8.decode((element['convname'] as String).runes.toList());
 

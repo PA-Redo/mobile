@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:pa_mobile/core/model/chat.dart';
+import 'package:pa_mobile/core/model/create_chat_dto.dart';
 import 'package:pa_mobile/flows/authentication/ui/login_screen.dart';
 import 'package:pa_mobile/shared/services/request/http_requests.dart';
 import 'package:pa_mobile/shared/services/storage/jwt_secure_storage.dart';
@@ -19,6 +20,9 @@ class ChatListScreen extends StatefulWidget {
 
 class _ChatListScreenState extends State<ChatListScreen> {
   final _formKey = GlobalKey<FormState>();
+  //controler
+  final TextEditingController _controllerConvName = TextEditingController();
+  final TextEditingController _controllerMessage = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -26,6 +30,7 @@ class _ChatListScreenState extends State<ChatListScreen> {
       future: loadChats(),
       builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
         if (snapshot.hasError) {
+          print("error");
           JwtSecureStorage().deleteJwtToken();
           StayLoginSecureStorage().notStayLogin();
           Navigator.pushNamedAndRemoveUntil(
@@ -37,6 +42,7 @@ class _ChatListScreenState extends State<ChatListScreen> {
         if (!snapshot.hasData) {
           return const Center(child: CircularProgressIndicator());
         }
+        print("here");
         final chats = snapshot.data as List<Chat>;
         if (chats.isEmpty) {
           return _buildEmpty();
@@ -62,27 +68,14 @@ class _ChatListScreenState extends State<ChatListScreen> {
     );
   }
 
-  //todo faire l'appel api pour récupérer les conversations
   Future<List<Chat>> loadChats() {
-    /*return Future.value([
-      Chat(
-        conversationId: 1,
-        convname: 'Conversation 1',
-      ),
-      Chat(
-        conversationId: 2,
-        convname: 'Conversation 2',
-      ),
-      Chat(
-        conversationId: 3,
-        convname: 'Conversation 3',
-      ),
-    ]);*/
+    print("test 2222");
     return SecureStorage.get('benef_id').then((value) => getChats(value!));
   }
 
   static Future<List<Chat>> getChats(String benefId) async {
     final response = await HttpRequests.get('/chat/conversations/$benefId');
+    print("test 111111");
 
     switch (response.statusCode) {
       case 200:
@@ -90,7 +83,6 @@ class _ChatListScreenState extends State<ChatListScreen> {
         for (final element in jsonDecode(response.body) as List<dynamic>) {
           list.add(Chat.decode(element as Map<String, dynamic>));
         }
-        print(list);
         return list;
       default:
         throw Exception('Error${response.statusCode}');
@@ -152,32 +144,59 @@ class _ChatListScreenState extends State<ChatListScreen> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                //todo faire le champ de saisie pour le nom de la conversation
-              TextFormField(
-                decoration: const InputDecoration(
-                  labelText: 'Nom de la conversation',
-                  hintText: 'Entrez un nom de conversation',
+                TextFormField(
+                  decoration: const InputDecoration(
+                    labelText: 'Nom de la conversation',
+                    hintText: 'Entrez un nom de conversation',
+                  ),
+                  controller: _controllerConvName,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Veuillez entrer un nom de conversation';
+                    }
+                    return null;
+                  },
                 ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Veuillez entrer un nom de conversation';
-                  }
-                  return null;
-                },
-              )
-                //todo faire le champ de saisie pour le message de départ de la conv
+                const SizedBox(height: 20),
+                TextFormField(
+                  decoration: const InputDecoration(
+                    labelText: 'Message de départ',
+                    hintText: 'Entrez un message de départ',
+                  ),
+                  keyboardType: TextInputType.multiline,
+                  maxLines: null,
+                  controller: _controllerMessage,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Veuillez entrer un message de départ';
+                    }
+                    return null;
+                  },
+                ),
               ],
             ),
           ),
           actions: [
             TextButton(
               onPressed: () => {
-                Navigator.pop(context),
-                //todo faire l'appel api pour créer une conversation
+                createChat()
               },
               child: const Text('Demander'),
             ),
           ],
         ),
       );
+
+  Future<void> createChat() async{
+    if (_formKey.currentState!.validate()) {
+      final future = await SecureStorage.get('benef_id');
+      final createChatDto = CreateChatDto(
+        convname: _controllerConvName.text,
+        fistMessage: _controllerMessage.text,
+        author: int.parse(future!),
+      );
+      await HttpRequests.post("/chat/conversations", createChatDto.encode());
+      Navigator.pop(context);
+    }
+  }
 }
