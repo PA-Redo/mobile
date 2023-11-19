@@ -21,7 +21,6 @@ class ChatListScreen extends StatefulWidget {
 class _ChatListScreenState extends State<ChatListScreen> {
   final _formKey = GlobalKey<FormState>();
 
-  //controler
   final TextEditingController _controllerConvName = TextEditingController();
   final TextEditingController _controllerMessage = TextEditingController();
 

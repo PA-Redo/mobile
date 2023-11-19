@@ -147,6 +147,7 @@ class _LoginScreenState extends State<LoginScreen> {
         );
         if (s == 'success') {
           await StayLoginSecureStorage().stayLogin();
+          await StayLoginSecureStorage().notVolunteer();
           await Navigator.of(context).pushNamedAndRemoveUntil(
               AccountScreen.routeName, (route) => false);
         } else {

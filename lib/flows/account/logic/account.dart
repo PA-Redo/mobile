@@ -15,10 +15,9 @@ class Account {
       '$beneficiaryInfoRoute/token',
     );
 
-    print(response.statusCode);
     switch (response.statusCode) {
       case 200:
-        return BeneficiaryResponseDto.decode(response.body);
+        return BeneficiaryResponseDto.decode(utf8.decode(response.bodyBytes));
       default:
         throw Exception('Failed to load beneficiary info');
     }

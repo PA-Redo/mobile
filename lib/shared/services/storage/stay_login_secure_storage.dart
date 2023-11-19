@@ -9,6 +9,8 @@ class StayLoginSecureStorage {
 
   final String STAY_LOGIN = 'stay_login';
 
+  final String IS_Volunteer = 'is_volunteer';
+
   Future<void> stayLogin() async {
     await const FlutterSecureStorage().write(key: STAY_LOGIN, value: 'true');
   }
@@ -19,5 +21,17 @@ class StayLoginSecureStorage {
 
   Future<bool> readStayLogin() async {
     return await const FlutterSecureStorage().read(key: STAY_LOGIN) == 'true';
+  }
+
+  Future<void> isVolunteer() async {
+    await const FlutterSecureStorage().write(key: IS_Volunteer, value: 'true');
+  }
+
+  Future<void> notVolunteer() async {
+    await const FlutterSecureStorage().write(key: IS_Volunteer, value: 'false');
+  }
+
+  Future<bool> readIsVolunteer() async {
+    return await const FlutterSecureStorage().read(key: IS_Volunteer) == 'true';
   }
 }

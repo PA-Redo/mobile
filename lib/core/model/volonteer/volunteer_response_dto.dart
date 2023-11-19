@@ -16,10 +16,10 @@ class VolunteerResponseDto {
 
   static VolunteerResponseDto decode(String jsonObject) {
     final id = EncodeTools.decodeInt(jsonObject, 'id');
-    final username = utf8.decode(EncodeTools.decodeString(jsonObject, 'username').runes.toList());
-    final firstName = utf8.decode(EncodeTools.decodeString(jsonObject, 'firstName').runes.toList());
+    final username = EncodeTools.decodeString(jsonObject, 'username');
+    final firstName = EncodeTools.decodeString(jsonObject, 'firstName');
     final lastName = EncodeTools.decodeString(jsonObject, 'lastName');
-    final phoneNumber = utf8.decode(EncodeTools.decodeString(jsonObject, 'phoneNumber').runes.toList());
+    final phoneNumber = EncodeTools.decodeString(jsonObject, 'phoneNumber');
     final isValidated = EncodeTools.decodeBool(jsonObject, 'isValidated');
     final localUnitId = EncodeTools.decodeInt(jsonObject, 'localUnitId');
     return VolunteerResponseDto(
