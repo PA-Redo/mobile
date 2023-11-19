@@ -8,6 +8,7 @@ import 'package:pa_mobile/shared/services/request/http_requests.dart';
 
 class Account {
   static String get beneficiaryInfoRoute => '/beneficiaries';
+  static String get volunteerInfoRoute => '/volunteer';
 
   static Future<BeneficiaryResponseDto> getBeneficiaryInfo() async {
     final response = await HttpRequests.get(
@@ -20,6 +21,21 @@ class Account {
         return BeneficiaryResponseDto.decode(response.body);
       default:
         throw Exception('Failed to load beneficiary info');
+    }
+  }
+
+  static Future<VolunteerResponseDto> getVolunteerInfo() async {
+    final response = await HttpRequests.get(
+      '$volunteerInfoRoute/token',
+    );
+
+    print(response.statusCode);
+    switch (response.statusCode) {
+      case 200:
+        //use bodyBytes
+        return VolunteerResponseDto.decode(utf8.decode(response.bodyBytes));
+      default:
+        throw Exception('Failed to load volunteer info');
     }
   }
 

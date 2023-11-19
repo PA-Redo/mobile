@@ -26,4 +26,24 @@ class Authentication {
         return "Mauvais identifiants";
     }
   }
+
+  static Future<String> loginVolunteer(LoginRequestDto loginDto) async {
+    final response = await HttpRequests.post(
+      '/login/volunteer',
+      loginDto.encode(),
+    );
+    print('Login response: ${response.statusCode}');
+    switch (response.statusCode) {
+      case 200:
+        final loginResponse = LoginResponseDto.decode(response.body);
+        await JwtSecureStorage().writeJwtToken(loginResponse.jwtToken);
+        return 'success';
+      case 490:
+        return 'Veuillez valider votre compte via le lien envoyé par mail';
+      case 491:
+        return "Votre compte n'a pas encore été validé par un administrateur";
+      default:
+        return 'Mauvais identifiants';
+    }
+  }
 }

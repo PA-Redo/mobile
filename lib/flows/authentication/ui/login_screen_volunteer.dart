@@ -1,24 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:pa_mobile/core/model/authentication/login_request_dto.dart';
 import 'package:pa_mobile/flows/account/ui/account_screen.dart';
+import 'package:pa_mobile/flows/account/ui/account_screen_volunteer.dart';
 import 'package:pa_mobile/flows/authentication/logic/authentication.dart';
 import 'package:pa_mobile/shared/services/storage/stay_login_secure_storage.dart';
 import 'package:pa_mobile/shared/validators/field_validators.dart';
 import 'package:pa_mobile/shared/widget/xbutton.dart';
 
-class LoginScreen extends StatefulWidget {
-  LoginScreen({super.key});
+class LoginScreenVolunteer extends StatefulWidget {
+  LoginScreenVolunteer({super.key});
 
-  static const routeName = '/login';
+  static const routeName = '/login_volunteer';
 
   final TextEditingController usernameController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<LoginScreenVolunteer> createState() => _LoginScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _LoginScreenState extends State<LoginScreenVolunteer> {
   final List<FocusNode> _focusNodes = [
     FocusNode(),
     FocusNode(),
@@ -139,7 +140,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Future<void> onLoginPressed() async {
     if (_loginKey.currentState!.validate()) {
       try {
-        final s = await Authentication.login(
+        final s = await Authentication.loginVolunteer(
           LoginRequestDto(
             username: widget.usernameController.text,
             password: widget.passwordController.text,
@@ -148,7 +149,7 @@ class _LoginScreenState extends State<LoginScreen> {
         if (s == 'success') {
           await StayLoginSecureStorage().stayLogin();
           await Navigator.of(context).pushNamedAndRemoveUntil(
-              AccountScreen.routeName, (route) => false);
+              AccountScreenVolunteer.routeName, (route) => false);
         } else {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(

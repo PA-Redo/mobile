@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pa_mobile/flows/account/ui/account_detail_screen.dart';
 import 'package:pa_mobile/flows/account/ui/account_screen.dart';
+import 'package:pa_mobile/flows/account/ui/account_screen_volunteer.dart';
 import 'package:pa_mobile/flows/account/ui/modify_profile_screen.dart';
 import 'package:pa_mobile/flows/authentication/ui/login_screen.dart';
+import 'package:pa_mobile/flows/authentication/ui/login_screen_volunteer.dart';
 import 'package:pa_mobile/flows/chat/chat_screen.dart';
 import 'package:pa_mobile/flows/donation/ui/donation_screen.dart';
 import 'package:pa_mobile/flows/event/ui/event_calendar_screen.dart';
@@ -47,9 +49,12 @@ class _MyAppState extends State<MyApp> {
           widget.isLogged ? AccountScreen.routeName : HomeScreen.routeName,
       routes: {
         AccountScreen.routeName: (context) => const AccountScreen(),
+        AccountScreenVolunteer.routeName: (context) =>
+            const AccountScreenVolunteer(),
         LoginScreen.routeName: (context) => LoginScreen(),
+        LoginScreenVolunteer.routeName: (context) => LoginScreenVolunteer(),
         EventScreen.routeName: (context) => const EventScreen(),
-        AccountDetailsScreen.routeName: (context) => AccountDetailsScreen(),
+        AccountDetailsScreen.routeName: (context) => const AccountDetailsScreen(),
         RegisterScreen.routeName: (context) => const RegisterScreen(),
         ModifyProfileScreen.routeName: (context) => const ModifyProfileScreen(),
         HomeScreen.routeName: (context) => const HomeScreen(),
