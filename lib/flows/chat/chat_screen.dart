@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:convert';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pa_mobile/core/model/chat.dart';
 import 'package:pa_mobile/core/model/message.dart';
