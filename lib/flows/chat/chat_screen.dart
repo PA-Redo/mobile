@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -18,6 +19,14 @@ class ChatScreen extends StatefulWidget {
 class _ChatScreenState extends State<ChatScreen> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _controllerMessage = TextEditingController();
+
+  @override
+  void initState() {
+    Timer.periodic(const Duration(seconds: 5), (timer) {
+      setState(() {});
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

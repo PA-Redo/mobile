@@ -5,6 +5,7 @@ import 'package:pa_mobile/core/model/chat.dart';
 import 'package:pa_mobile/core/model/message.dart';
 import 'package:pa_mobile/shared/services/request/http_requests.dart';
 import 'package:pa_mobile/shared/services/storage/secure_storage.dart';
+import 'dart:async';
 
 class ChatVolunteerScreen extends StatefulWidget {
   const ChatVolunteerScreen({Key? key}) : super(key: key);
@@ -17,6 +18,14 @@ class ChatVolunteerScreen extends StatefulWidget {
 
 class _ChatVolunteerScreenState extends State<ChatVolunteerScreen> {
   final TextEditingController _controllerMessage = TextEditingController();
+
+  @override
+  void initState() {
+    Timer.periodic(const Duration(seconds: 5), (timer) {
+      setState(() {});
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
