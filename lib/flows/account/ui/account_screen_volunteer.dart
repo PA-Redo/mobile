@@ -4,6 +4,7 @@ import 'package:pa_mobile/core/model/local_unit/local_unit_response_dto.dart';
 import 'package:pa_mobile/core/model/volonteer/volunteer_response_dto.dart';
 import 'package:pa_mobile/flows/account/logic/account.dart';
 import 'package:pa_mobile/flows/account/ui/modify_profile_screen.dart';
+import 'package:pa_mobile/flows/chat/chat_list_volunteer_screen.dart';
 import 'package:pa_mobile/flows/home/ui/home_screen.dart';
 import 'package:pa_mobile/shared/services/storage/jwt_secure_storage.dart';
 import 'package:pa_mobile/shared/services/storage/secure_storage.dart';
@@ -55,7 +56,8 @@ class _AccountScreenVolunteerState extends State<AccountScreenVolunteer> {
   Future<void> _loadData() async {
     final volunteer = await Account.getVolunteerInfo();
     final localUnitResponse = await Account.getLocalUnit(volunteer.localUnitId.toString());
-
+    await SecureStorage.set('volunteer_name', volunteer.username);
+    await SecureStorage.set('volunteer_id', volunteer.id.toString());
     setState(() {
       volunteerResponseDto = volunteer;
       localUnit = localUnitResponse;
@@ -97,7 +99,7 @@ class _AccountScreenVolunteerState extends State<AccountScreenVolunteer> {
     if (_screenIndex == 0) {
       return getProfile();
     } else if (_screenIndex == 1) {
-      return const Text('Chat');
+      return const ChatListVolunteerScreen();
     } else {
       return const Text('Error');
     }

@@ -42,7 +42,6 @@ class _ChatListScreenState extends State<ChatListScreen> {
         if (!snapshot.hasData) {
           return const Center(child: CircularProgressIndicator());
         }
-        print("here");
         final chats = snapshot.data as List<Chat>;
         if (chats.isEmpty) {
           return _buildEmpty();

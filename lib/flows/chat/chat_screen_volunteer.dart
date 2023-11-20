@@ -6,17 +6,16 @@ import 'package:pa_mobile/core/model/message.dart';
 import 'package:pa_mobile/shared/services/request/http_requests.dart';
 import 'package:pa_mobile/shared/services/storage/secure_storage.dart';
 
-class ChatScreen extends StatefulWidget {
-  const ChatScreen({Key? key}) : super(key: key);
+class ChatVolunteerScreen extends StatefulWidget {
+  const ChatVolunteerScreen({Key? key}) : super(key: key);
 
-  static const routeName = '/chat';
+  static const routeName = '/chat_volunteer';
 
   @override
-  State<ChatScreen> createState() => _ChatScreenState();
+  State<ChatVolunteerScreen> createState() => _ChatVolunteerScreenState();
 }
 
-class _ChatScreenState extends State<ChatScreen> {
-  final _formKey = GlobalKey<FormState>();
+class _ChatVolunteerScreenState extends State<ChatVolunteerScreen> {
   final TextEditingController _controllerMessage = TextEditingController();
 
   @override
@@ -40,6 +39,7 @@ class _ChatScreenState extends State<ChatScreen> {
                   builder: (context, AsyncSnapshot<List<dynamic>> snapshot) {
                     if (snapshot.hasData) {
                       return ListView.builder(
+                        shrinkWrap: true,
                         itemCount: snapshot.data![0].length as int,
                         itemBuilder: (context, index) {
                           final message = snapshot.data![0][index] as Message;
@@ -136,6 +136,7 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
   Future<String?> getId() async {
-    return await SecureStorage.get('benef_id');
+    print(await SecureStorage.get('volunteer_id'));
+    return await SecureStorage.get('volunteer_id');
   }
 }
