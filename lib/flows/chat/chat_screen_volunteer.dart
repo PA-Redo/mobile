@@ -39,7 +39,6 @@ class _ChatVolunteerScreenState extends State<ChatVolunteerScreen> {
                   builder: (context, AsyncSnapshot<List<dynamic>> snapshot) {
                     if (snapshot.hasData) {
                       return ListView.builder(
-                        shrinkWrap: true,
                         itemCount: snapshot.data![0].length as int,
                         itemBuilder: (context, index) {
                           final message = snapshot.data![0][index] as Message;
