@@ -18,11 +18,13 @@ class ChatScreen extends StatefulWidget {
 class _ChatScreenState extends State<ChatScreen> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _controllerMessage = TextEditingController();
+  final ScrollController _scrollController = ScrollController();
 
   @override
   void initState() {
     Timer.periodic(const Duration(seconds: 5), (timer) {
       setState(() {});
+      _scrollToBottom();
     });
     super.initState();
   }
@@ -48,6 +50,7 @@ class _ChatScreenState extends State<ChatScreen> {
                   builder: (context, AsyncSnapshot<List<dynamic>> snapshot) {
                     if (snapshot.hasData) {
                       return ListView.builder(
+                        controller: _scrollController,
                         itemCount: snapshot.data![0].length as int,
                         itemBuilder: (context, index) {
                           final message = snapshot.data![0][index] as Message;
@@ -145,5 +148,13 @@ class _ChatScreenState extends State<ChatScreen> {
 
   Future<String?> getId() async {
     return await SecureStorage.get('benef_id');
+  }
+
+  void _scrollToBottom() {
+    _scrollController.animateTo(
+      _scrollController.position.maxScrollExtent,
+      duration: Duration(milliseconds: 300),
+      curve: Curves.easeOut,
+    );
   }
 }
