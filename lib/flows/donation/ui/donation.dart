@@ -20,4 +20,19 @@ class Donation {
   final String city;
   final String zipCode;
   final String country;
+
+  String encode() {
+
+    return '{'
+        '"amount": $amount,'
+        '"email": "$email",'
+        '"firstName": "$firstName",'
+        '"lastName": "$lastName",'
+        '"civility": "$civility",'
+        '"address": "$address",'
+        '"city": "$city",'
+        '"zipCode": "$zipCode",'
+        '"country": "$country"'
+        '}';
+  }
 }

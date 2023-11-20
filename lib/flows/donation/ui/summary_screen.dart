@@ -264,7 +264,10 @@ class _SummaryScreenState extends State<SummaryScreen> {
           ),
         ).then((value) {
           //send data to backend
-
+          HttpRequests.post(
+            '/login/sendEmailForSupport',
+            donation.encode(),
+          );
           Navigator.of(context).pushNamedAndRemoveUntil(
             HomeScreen.routeName,
             (route) => false,
