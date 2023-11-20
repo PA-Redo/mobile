@@ -8,6 +8,7 @@ void main() {
       await tester.pumpWidget(
         const MyApp(
           isLogged: false,
+          isVolunteer: false,
         ),
       );
       expect(find.byType(HomeScreen), findsOneWidget);
