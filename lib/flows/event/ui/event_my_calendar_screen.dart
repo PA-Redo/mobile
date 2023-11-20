@@ -28,9 +28,7 @@ class _MyEventScreenState extends State<MyEventScreen> {
   late BeneficiaryResponseDto beneficiary;
 
   List<EventResponseDTO> _getEventsForDay(DateTime day) {
-    return localUnitEvents
-        .where((event) => isSameDay(event.start, day))
-        .toList();
+    return localUnitEvents.where((event) => isSameDay(event.start, day)).toList();
   }
 
   void _onDaySelected(DateTime selectedDay, DateTime focusedDay) {
@@ -57,6 +55,7 @@ class _MyEventScreenState extends State<MyEventScreen> {
     super.initState();
     _selectedDay = DateTime.now();
     selectedEvent = ValueNotifier(_getEventsForDay(_selectedDay));
+    print("object");
   }
 
   @override
@@ -76,7 +75,7 @@ class _MyEventScreenState extends State<MyEventScreen> {
           Navigator.pushNamedAndRemoveUntil(
             context,
             LoginScreen.routeName,
-                (route) => false,
+            (route) => false,
           );
         }
         if (!snapshot.hasData) {
@@ -152,7 +151,11 @@ class _MyEventScreenState extends State<MyEventScreen> {
                                   beneficiary: beneficiary,
                                 ),
                               ),
-                            ).then((value) => setState(() {})),
+                            ).then(
+                              (value) {
+                                setState(() {});
+                              },
+                            ),
                             title: Text(value[index].name),
                           ),
                         );

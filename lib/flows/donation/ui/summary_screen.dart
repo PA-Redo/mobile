@@ -224,29 +224,26 @@ class _SummaryScreenState extends State<SummaryScreen> {
 
   Future<void> makePayment() async {
     try {
-      final tt =
-          (await createPaymentIntent(widget.donation.amount.toString(), 'EUR'))
-              .body;
+      final tt = (await createPaymentIntent(widget.donation.amount.toString(), 'EUR')).body;
       paymentIntent = jsonDecode(tt) as Map<String, dynamic>;
 
       await Stripe.instance
           .initPaymentSheet(
             paymentSheetParameters: SetupPaymentSheetParameters(
-              paymentIntentClientSecret:
-                  paymentIntent!['client_secret'] as String,
+              paymentIntentClientSecret: paymentIntent!['client_secret'] as String,
               style: ThemeMode.dark,
               merchantDisplayName: 'Ikay',
             ),
           )
           .then((value) {});
 
-      await displayPaymentSheet();
+      await displayPaymentSheet(widget.donation);
     } catch (err) {
       throw Exception(err);
     }
   }
 
-  Future<void> displayPaymentSheet() async {
+  Future<void> displayPaymentSheet(Donation donation) async {
     try {
       await Stripe.instance.presentPaymentSheet().then((value) {
         showDialog(
@@ -265,12 +262,14 @@ class _SummaryScreenState extends State<SummaryScreen> {
               ],
             ),
           ),
-        ).then(
-          (value) => Navigator.of(context).pushNamedAndRemoveUntil(
+        ).then((value) {
+          //send data to backend
+
+          Navigator.of(context).pushNamedAndRemoveUntil(
             HomeScreen.routeName,
             (route) => false,
-          ),
-        );
+          );
+        });
 
         paymentIntent = null;
       }).onError((error, stackTrace) {
@@ -309,10 +308,7 @@ class _SummaryScreenState extends State<SummaryScreen> {
       return HttpRequests.postWithoutApi(
         'https://api.stripe.com/v1/payment_intents',
         body,
-        {
-          'Authorization': 'Bearer ${dotenv.env['STRIPE_SECRET']}',
-          'Content-Type': 'application/x-www-form-urlencoded'
-        },
+        {'Authorization': 'Bearer ${dotenv.env['STRIPE_SECRET']}', 'Content-Type': 'application/x-www-form-urlencoded'},
       );
     } catch (err) {
       throw Exception(err.toString());
