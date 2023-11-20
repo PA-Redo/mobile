@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -5,7 +6,6 @@ import 'package:pa_mobile/core/model/chat.dart';
 import 'package:pa_mobile/core/model/message.dart';
 import 'package:pa_mobile/shared/services/request/http_requests.dart';
 import 'package:pa_mobile/shared/services/storage/secure_storage.dart';
-import 'dart:async';
 
 class ChatVolunteerScreen extends StatefulWidget {
   const ChatVolunteerScreen({Key? key}) : super(key: key);
@@ -18,11 +18,13 @@ class ChatVolunteerScreen extends StatefulWidget {
 
 class _ChatVolunteerScreenState extends State<ChatVolunteerScreen> {
   final TextEditingController _controllerMessage = TextEditingController();
+  final ScrollController _scrollController = ScrollController(); // Add this line
 
   @override
   void initState() {
     Timer.periodic(const Duration(seconds: 5), (timer) {
       setState(() {});
+      _scrollToBottom(); // Add this line to scroll to the bottom every 5 seconds
     });
     super.initState();
   }
@@ -48,6 +50,7 @@ class _ChatVolunteerScreenState extends State<ChatVolunteerScreen> {
                   builder: (context, AsyncSnapshot<List<dynamic>> snapshot) {
                     if (snapshot.hasData) {
                       return ListView.builder(
+                        controller: _scrollController,
                         itemCount: snapshot.data![0].length as int,
                         itemBuilder: (context, index) {
                           final message = snapshot.data![0][index] as Message;
@@ -146,5 +149,13 @@ class _ChatVolunteerScreenState extends State<ChatVolunteerScreen> {
   Future<String?> getId() async {
     print(await SecureStorage.get('volunteer_id'));
     return await SecureStorage.get('volunteer_id');
+  }
+
+  void _scrollToBottom() {
+    _scrollController.animateTo(
+      _scrollController.position.maxScrollExtent,
+      duration: Duration(milliseconds: 300),
+      curve: Curves.easeOut,
+    );
   }
 }
