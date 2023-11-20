@@ -31,7 +31,6 @@ class Account {
     print(response.statusCode);
     switch (response.statusCode) {
       case 200:
-        //use bodyBytes
         return VolunteerResponseDto.decode(utf8.decode(response.bodyBytes));
       default:
         throw Exception('Failed to load volunteer info');

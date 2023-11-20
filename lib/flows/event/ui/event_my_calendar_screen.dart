@@ -49,7 +49,6 @@ class _MyEventScreenState extends State<MyEventScreen> {
     beneficiary = res[0];
     await SecureStorage.set('benef_name', beneficiary.username);
     await SecureStorage.set('benef_id', beneficiary.id.toString());
-    print("object");
     return EventLogic.getLocalUnitEventOfBenef(beneficiary.localUnitId.toString(), beneficiary.id);
   }
 
@@ -153,7 +152,7 @@ class _MyEventScreenState extends State<MyEventScreen> {
                                   beneficiary: beneficiary,
                                 ),
                               ),
-                            ),
+                            ).then((value) => setState(() {})),
                             title: Text(value[index].name),
                           ),
                         );

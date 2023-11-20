@@ -18,13 +18,13 @@ class ChatVolunteerScreen extends StatefulWidget {
 
 class _ChatVolunteerScreenState extends State<ChatVolunteerScreen> {
   final TextEditingController _controllerMessage = TextEditingController();
-  final ScrollController _scrollController = ScrollController(); // Add this line
+  final ScrollController _scrollController = ScrollController();
 
   @override
   void initState() {
     Timer.periodic(const Duration(seconds: 5), (timer) {
       setState(() {});
-      _scrollToBottom(); // Add this line to scroll to the bottom every 5 seconds
+      _scrollToBottom();
     });
     super.initState();
   }

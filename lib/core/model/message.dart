@@ -9,8 +9,6 @@ class Message {
 
   Map<String, dynamic> toJson() {
     return {
-      //'conversationId': conversationId,
-      //'convname': convname,
       'author': author,
       'content': content,
     };
