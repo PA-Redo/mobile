@@ -1,4 +1,4 @@
-package com.example.verygoodcore.mobile
+package croix.rouge.mobile.com
 
 import io.flutter.embedding.android.FlutterActivity
 
