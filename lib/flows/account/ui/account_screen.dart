@@ -100,7 +100,7 @@ class _AccountScreenState extends State<AccountScreen> {
       return getProfile();
     } else if (_screenIndex == 3) {
       return const ChatListScreen();
-    }else {
+    } else {
       return const Text('Error');
     }
   }
@@ -158,43 +158,44 @@ class _AccountScreenState extends State<AccountScreen> {
                       ],
                     ),
                     const Spacer(),
-                    RawMaterialButton(
-                      onPressed: () async {
-                        await Navigator.pushNamed(
-                          context,
-                          ModifyProfileScreen.routeName,
-                          arguments: beneficiary,
-                        );
-                        setState(() {});
-                      },
-                      fillColor: Theme.of(context).colorScheme.secondary,
-                      padding: const EdgeInsets.all(10),
-                      shape: const CircleBorder(),
-                      child: const Icon(
-                        Icons.edit,
-                        size: 20,
-                        color: Colors.white,
+                    Container(
+                      margin: const EdgeInsets.symmetric(horizontal: 10),
+                      child: IconButton(
+                        onPressed: () async {
+                          await Navigator.pushNamed(
+                            context,
+                            ModifyProfileScreen.routeName,
+                            arguments: beneficiary,
+                          );
+                          setState(() {});
+                        },
+                        icon: const Icon(
+                          Icons.edit,
+                          size: 20,
+                          color: Colors.red,
+                        ),
                       ),
                     ),
-                    RawMaterialButton(
-                      onPressed: () {
-                        JwtSecureStorage().deleteJwtToken();
-                        StayLoginSecureStorage().notStayLogin();
-                        Navigator.pushNamedAndRemoveUntil(
-                          context,
-                          HomeScreen.routeName,
-                          (route) => false,
-                        );
-                      },
-                      shape: const CircleBorder(),
-                      fillColor: Theme.of(context).colorScheme.secondary,
-                      padding: const EdgeInsets.all(10.0),
-                      child: const Icon(
-                        Icons.logout,
-                        size: 20,
-                        color: Colors.white,
+                    Container(
+                      margin: const EdgeInsets.symmetric(horizontal: 10),
+                      child: IconButton(
+                        onPressed: () {
+                          JwtSecureStorage().deleteJwtToken();
+                          StayLoginSecureStorage().notStayLogin();
+                          Navigator.pushNamedAndRemoveUntil(
+                            context,
+                            HomeScreen.routeName,
+                                (route) => false,
+                          );
+                        },
+                        icon: const Icon(
+                          Icons.logout,
+                          size: 20,
+                          color: Colors.red,
+                        ),
                       ),
                     ),
+                    const Spacer(),
                   ],
                 ),
               ),

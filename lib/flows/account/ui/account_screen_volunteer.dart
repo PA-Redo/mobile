@@ -157,42 +157,41 @@ class _AccountScreenVolunteerState extends State<AccountScreenVolunteer> {
                           ],
                         ),
                         const Spacer(),
-                        RawMaterialButton(
-                          onPressed: () async {
-                            await Navigator.pushNamed(
-                              context,
-                              ModifyProfileScreen.routeName,
-                              arguments: volunteerResponseDto,
-                            );
-                            _loadData();
-                          },
-                          fillColor: Theme.of(context).colorScheme.secondary,
-                          padding: const EdgeInsets.all(10),
-                          shape: const CircleBorder(),
-                          child: const Icon(
-                            Icons.edit,
-                            size: 20,
-                            color: Colors.white,
+                        Container(
+                          margin: const EdgeInsets.symmetric(horizontal: 10),
+                          child: IconButton(
+                            onPressed: () async {
+                              await Navigator.pushNamed(
+                                context,
+                                ModifyProfileScreen.routeName,
+                                arguments: volunteerResponseDto,
+                              );
+                              _loadData();
+                            },
+                            icon: const Icon(
+                              Icons.edit,
+                              size: 20,
+                              color: Colors.red,
+                            ),
                           ),
                         ),
-                        const Padding(padding: EdgeInsets.only(right: 0)),
-                        RawMaterialButton(
-                          onPressed: () {
-                            JwtSecureStorage().deleteJwtToken();
-                            StayLoginSecureStorage().notStayLogin();
-                            Navigator.pushNamedAndRemoveUntil(
-                              context,
-                              HomeScreen.routeName,
-                              (route) => false,
-                            );
-                          },
-                          shape: const CircleBorder(),
-                          fillColor: Theme.of(context).colorScheme.secondary,
-                          padding: const EdgeInsets.all(10.0),
-                          child: const Icon(
-                            Icons.logout,
-                            size: 20,
-                            color: Colors.white,
+                        Container(
+                          margin: const EdgeInsets.symmetric(horizontal: 10),
+                          child: IconButton(
+                            onPressed: () {
+                              JwtSecureStorage().deleteJwtToken();
+                              StayLoginSecureStorage().notStayLogin();
+                              Navigator.pushNamedAndRemoveUntil(
+                                context,
+                                HomeScreen.routeName,
+                                (route) => false,
+                              );
+                            },
+                            icon: const Icon(
+                              Icons.logout,
+                              size: 20,
+                              color: Colors.red,
+                            ),
                           ),
                         ),
                         const Spacer(),
