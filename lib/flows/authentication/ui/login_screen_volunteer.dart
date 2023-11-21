@@ -3,6 +3,7 @@ import 'package:pa_mobile/core/model/authentication/login_request_dto.dart';
 import 'package:pa_mobile/flows/account/ui/account_screen.dart';
 import 'package:pa_mobile/flows/account/ui/account_screen_volunteer.dart';
 import 'package:pa_mobile/flows/authentication/logic/authentication.dart';
+import 'package:pa_mobile/shared/services/storage/secure_storage.dart';
 import 'package:pa_mobile/shared/services/storage/stay_login_secure_storage.dart';
 import 'package:pa_mobile/shared/validators/field_validators.dart';
 import 'package:pa_mobile/shared/widget/xbutton.dart';
@@ -144,6 +145,7 @@ class _LoginScreenState extends State<LoginScreenVolunteer> {
           LoginRequestDto(
             username: widget.usernameController.text,
             password: widget.passwordController.text,
+            firebaseToken: await SecureStorage.get('firebaseToken') ?? '',
           ),
         );
         if (s == 'success') {

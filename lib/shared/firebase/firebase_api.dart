@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:pa_mobile/shared/services/storage/secure_storage.dart';
 
 class FirebaseApi {
   final _firebaseMessaging = FirebaseMessaging.instance;
@@ -9,7 +10,6 @@ class FirebaseApi {
   Future<void> initNotification(GlobalKey<NavigatorState> navigatorKey) async {
     await _firebaseMessaging.requestPermission();
     final token = await _firebaseMessaging.getToken();
-    //autorize notif when app closed
     final settings = await _firebaseMessaging.requestPermission(
       alert: true,
       announcement: true,
@@ -19,9 +19,7 @@ class FirebaseApi {
       provisional: true,
       sound: true,
     );
-    //see notif when app open
-
-    print('Token: $token');
+    await SecureStorage.set('token', token!);
     FirebaseMessaging.onMessage.listen((message) {
       print('Title: ${message.notification!.title}');
       print('Body: ${message.notification!.body}');
