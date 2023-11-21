@@ -6,7 +6,6 @@ import 'package:pa_mobile/shared/services/storage/secure_storage.dart';
 class FirebaseApi {
   final _firebaseMessaging = FirebaseMessaging.instance;
 
-
   Future<void> initNotification(GlobalKey<NavigatorState> navigatorKey) async {
     await _firebaseMessaging.requestPermission();
     final token = await _firebaseMessaging.getToken();
@@ -19,7 +18,8 @@ class FirebaseApi {
       provisional: true,
       sound: true,
     );
-    await SecureStorage.set('token', token!);
+    await SecureStorage.set('firebaseToken', token!);
+    print(token);
     FirebaseMessaging.onMessage.listen((message) {
       print('Title: ${message.notification!.title}');
       print('Body: ${message.notification!.body}');
@@ -32,10 +32,12 @@ class FirebaseApi {
         ),
       );
     });
-    FirebaseMessaging.onMessageOpenedApp.listen((message) {
-      print('Title: ${message.notification!.title}');
-      print('Body: ${message.notification!.body}');
-      print('Data: ${message.data}');
-    });
+    FirebaseMessaging.onMessageOpenedApp.listen(
+      (message) {
+        print('Title: ${message.notification!.title}');
+        print('Body: ${message.notification!.body}');
+        print('Data: ${message.data}');
+      },
+    );
   }
 }
