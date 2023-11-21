@@ -11,7 +11,9 @@ void main() async {
       'pk_test_51Nt6kLAMwqibCvaHmV7QHn8TywuAhZM0CG0kSTCm5BVM0JKRxRheV3HaqKgZC2j13cQNlGJnV4SneBSZtHxHc3NM00pHQS5Iur';
   await dotenv.load(fileName: 'assets/.env');
   final isLogged = await autoLogin();
+  print(isLogged);
   final isVolunteer = await isVolunteers();
+  print(isVolunteer);
   runApp(MyApp(
     isLogged: isLogged,
     isVolunteer: isVolunteer,

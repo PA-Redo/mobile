@@ -59,7 +59,7 @@ class _AccountScreenState extends State<AccountScreen> {
       appBar: AppBar(
         title: Text(
           title,
-          style: Theme.of(context).textTheme.headlineLarge,
+          style: Theme.of(context).textTheme.headlineMedium,
         ),
       ),
       body: getBody(),
