@@ -1,3 +1,4 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
@@ -13,15 +14,28 @@ void main() async {
       'pk_test_51Nt6kLAMwqibCvaHmV7QHn8TywuAhZM0CG0kSTCm5BVM0JKRxRheV3HaqKgZC2j13cQNlGJnV4SneBSZtHxHc3NM00pHQS5Iur';
   await dotenv.load(fileName: 'assets/.env');
   await Firebase.initializeApp();
-  await FirebaseApi().initNotification();
+  final navigatorKey = GlobalKey<NavigatorState>();
+  await FirebaseApi().initNotification(navigatorKey);
+  FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
   final isLogged = await autoLogin();
   print(isLogged);
   final isVolunteer = await isVolunteers();
   print(isVolunteer);
-  runApp(MyApp(
-    isLogged: isLogged,
-    isVolunteer: isVolunteer,
-  ));
+  runApp(
+    MyApp(
+      isLogged: isLogged,
+      isVolunteer: isVolunteer,
+      navigatorKey: navigatorKey,
+    ),
+  );
+}
+
+Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  await Firebase.initializeApp();
+  print("Handling a background message: ${message.messageId}");
+  print('Message data: ${message.data}');
+  print('Message notification: ${message.notification?.title}');
+  print('Message notification: ${message.notification?.body}');
 }
 
 Future<bool> autoLogin() async {

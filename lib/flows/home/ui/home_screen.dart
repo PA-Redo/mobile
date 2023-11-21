@@ -84,7 +84,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         'Bienvenue',
                         style: textSubTitleStyle(),
                       ),
-                      const SizedBox(height: 20),
+                      const SizedBox(height: 5),
                       SizedBox(
                         width: 200,
                         child: Text(

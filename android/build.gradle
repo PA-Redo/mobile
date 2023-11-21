@@ -6,16 +6,11 @@ buildscript {
     }
 
     dependencies {
-        implementation platform('com.google.firebase:firebase-bom:32.6.0')
-        implementation 'com.google.firebase:firebase-analytics'
-        classpath 'com.android.tools.build:gradle:7.2.0'
+        classpath 'com.android.tools.build:gradle:4.1.0'
+        classpath 'com.google.gms:google-services:4.4.0'
+        classpath 'com.android.tools.build:gradle:7.4.2'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
-}
-
-plugins {
-    id 'com.google.gms.google-services' version '4.4.0' apply false
-
 }
 
 allprojects {

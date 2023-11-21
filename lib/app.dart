@@ -16,10 +16,11 @@ import 'package:pa_mobile/flows/inscription/ui/register_success_screen.dart';
 import 'package:pa_mobile/l10n/l10n.dart';
 
 class MyApp extends StatefulWidget {
-  const MyApp({super.key, required this.isLogged, required this.isVolunteer});
+  const MyApp({super.key, required this.isLogged, required this.isVolunteer, required this.navigatorKey});
 
   final bool isLogged;
   final bool isVolunteer;
+  final GlobalKey<NavigatorState> navigatorKey;
 
   @override
   State<MyApp> createState() => _MyAppState();
@@ -33,6 +34,7 @@ class _MyAppState extends State<MyApp> {
     ]);
 
     return MaterialApp(
+      navigatorKey: widget.navigatorKey,
       theme: ThemeData(
         appBarTheme: const AppBarTheme(
           elevation: 2,

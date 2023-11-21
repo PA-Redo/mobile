@@ -118,7 +118,7 @@ class _AccountScreenVolunteerState extends State<AccountScreenVolunteer> {
             Navigator.pushNamedAndRemoveUntil(
               context,
               HomeScreen.routeName,
-                  (route) => false,
+              (route) => false,
             );
             return Container();
           } else {
@@ -183,7 +183,7 @@ class _AccountScreenVolunteerState extends State<AccountScreenVolunteer> {
                             Navigator.pushNamedAndRemoveUntil(
                               context,
                               HomeScreen.routeName,
-                                  (route) => false,
+                              (route) => false,
                             );
                           },
                           shape: const CircleBorder(),
@@ -195,6 +195,7 @@ class _AccountScreenVolunteerState extends State<AccountScreenVolunteer> {
                             color: Colors.white,
                           ),
                         ),
+                        const Spacer(),
                       ],
                     ),
                   ),
@@ -220,8 +221,7 @@ class _AccountScreenVolunteerState extends State<AccountScreenVolunteer> {
                           ),
                           readOnly: true,
                           controller: TextEditingController(
-                            text:
-                            '${volunteerResponseDto.lastName} ${volunteerResponseDto.firstName}',
+                            text: '${volunteerResponseDto.lastName} ${volunteerResponseDto.firstName}',
                           ),
                           focusNode: AlwaysDisabledFocusNode(),
                         ),
@@ -270,8 +270,7 @@ class _AccountScreenVolunteerState extends State<AccountScreenVolunteer> {
                           ),
                           readOnly: true,
                           controller: TextEditingController(
-                            text:
-                            '${localUnit.address.city}, ${localUnit.address.streetNumberAndName}',
+                            text: '${localUnit.address.city}, ${localUnit.address.streetNumberAndName}',
                           ),
                           focusNode: AlwaysDisabledFocusNode(),
                         ),
