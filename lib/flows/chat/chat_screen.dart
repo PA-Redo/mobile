@@ -62,7 +62,9 @@ class _ChatScreenState extends State<ChatScreen> {
                                 textAlign: TextAlign.right,
                               ),
                               subtitle: Text(
-                                "${message.date.year}-${message.date.month.toString().padLeft(2, '0')}-${message.date.day.toString().padLeft(2, '0')} ${message.date.hour.toString().padLeft(2, '0')}:${message.date.minute.toString().padLeft(2, '0')}",
+                                //"${message.date.year}-${message.date.month.toString().padLeft(2, '0')}-${message.date.day.toString().padLeft(2, '0')} ${message.date.hour.toString().padLeft(2, '0')}:${message.date.minute.toString().padLeft(2, '0')}",
+                                //do it humain readable
+                                "${message.date.hour.toString().padLeft(2, '0')}:${message.date.minute.toString().padLeft(2, '0')} : ${message.username}",
                                 textAlign: TextAlign.right,
                               ),
                             );
@@ -71,7 +73,9 @@ class _ChatScreenState extends State<ChatScreen> {
                             leading: const Icon(Icons.person),
                             title: Text(message.content),
                             subtitle: Text(
-                              "${message.date.year}-${message.date.month.toString().padLeft(2, '0')}-${message.date.day.toString().padLeft(2, '0')} ${message.date.hour.toString().padLeft(2, '0')}:${message.date.minute.toString().padLeft(2, '0')}",
+                              //"${message.date.year}-${message.date.month.toString().padLeft(2, '0')}-${message.date.day.toString().padLeft(2, '0')} ${message.date.hour.toString().padLeft(2, '0')}:${message.date.minute.toString().padLeft(2, '0')}",
+                              //do it humain readable
+                              "Admin : ${message.date.hour.toString().padLeft(2, '0')}:${message.date.minute.toString().padLeft(2, '0')}",
                             ),
                           );
                         },
@@ -108,12 +112,12 @@ class _ChatScreenState extends State<ChatScreen> {
                                 author: int.parse(snapshot.data.toString()),
                                 content: _controllerMessage.text,
                                 date: DateTime.now(),
+                                username: '',
                               ).encode(),
                             );
                             if (response.statusCode == 200) {
-                              setState(() {
-                                _controllerMessage.clear();
-                              });
+                              _controllerMessage.clear();
+                              setState(() {});
                             }
                           },
                           icon: const Icon(Icons.send),

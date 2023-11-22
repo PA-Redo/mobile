@@ -106,24 +106,26 @@ class _AccountScreenState extends State<AccountScreen> {
   }
 
   Widget getProfile() {
-    return SingleChildScrollView(
-      child: FutureBuilder(
-        future: getBeneficiary(),
-        builder: (context, AsyncSnapshot<BeneficiaryResponseDto> snapshot) {
-          if (snapshot.hasError) {
-            JwtSecureStorage().deleteJwtToken();
-            StayLoginSecureStorage().notStayLogin();
-            Navigator.pushNamedAndRemoveUntil(
-              context,
-              HomeScreen.routeName,
-              (route) => false,
-            );
-          }
-          if (!snapshot.hasData) {
-            return const Center(child: CircularProgressIndicator());
-          }
-          beneficiary = snapshot.data!;
-          return Column(
+    return FutureBuilder(
+      future: getBeneficiary(),
+      builder: (context, AsyncSnapshot<BeneficiaryResponseDto> snapshot) {
+        if (snapshot.hasError) {
+          JwtSecureStorage().deleteJwtToken();
+          StayLoginSecureStorage().notStayLogin();
+          Navigator.pushNamedAndRemoveUntil(
+            context,
+            HomeScreen.routeName,
+                (route) => false,
+          );
+        }
+        if (!snapshot.hasData) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+        beneficiary = snapshot.data!;
+        return SingleChildScrollView(
+          child: Column(
             children: [
               Container(
                 margin: const EdgeInsets.all(10),
@@ -232,8 +234,7 @@ class _AccountScreenState extends State<AccountScreen> {
                       ),
                       readOnly: true,
                       controller: TextEditingController(
-                        text:
-                            '${beneficiary.lastName} ${beneficiary.firstName}',
+                        text: '${beneficiary.lastName} ${beneficiary.firstName}',
                       ),
                       focusNode: AlwaysDisabledFocusNode(),
                     ),
@@ -293,8 +294,7 @@ class _AccountScreenState extends State<AccountScreen> {
                       ),
                       readOnly: true,
                       controller: TextEditingController(
-                        text:
-                            '${localUnit.address.city}, ${localUnit.address.streetNumberAndName}',
+                        text: '${localUnit.address.city}, ${localUnit.address.streetNumberAndName}',
                       ),
                       focusNode: AlwaysDisabledFocusNode(),
                     ),
@@ -302,9 +302,9 @@ class _AccountScreenState extends State<AccountScreen> {
                 ),
               ),
             ],
-          );
-        },
-      ),
+          ),
+        );
+      },
     );
   }
 

@@ -27,7 +27,7 @@ class FirebaseApi {
       //Open dialog without context
       ScaffoldMessenger.of(navigatorKey.currentContext!).showSnackBar(
         SnackBar(
-          content: Text(message.notification!.body!),
+          content: Text(message.notification!.title!),
           backgroundColor: Theme.of(navigatorKey.currentContext!).colorScheme.background,
         ),
       );

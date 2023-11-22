@@ -71,7 +71,7 @@ class _AccountScreenVolunteerState extends State<AccountScreenVolunteer> {
       appBar: AppBar(
         title: Text(
           title,
-          style: Theme.of(context).textTheme.headlineLarge,
+          style: Theme.of(context).textTheme.headlineMedium,
         ),
       ),
       body: getBody(),
@@ -157,24 +157,6 @@ class _AccountScreenVolunteerState extends State<AccountScreenVolunteer> {
                           ],
                         ),
                         const Spacer(),
-                        Container(
-                          margin: const EdgeInsets.symmetric(horizontal: 10),
-                          child: IconButton(
-                            onPressed: () async {
-                              await Navigator.pushNamed(
-                                context,
-                                ModifyProfileScreen.routeName,
-                                arguments: volunteerResponseDto,
-                              );
-                              _loadData();
-                            },
-                            icon: const Icon(
-                              Icons.edit,
-                              size: 20,
-                              color: Colors.red,
-                            ),
-                          ),
-                        ),
                         Container(
                           margin: const EdgeInsets.symmetric(horizontal: 10),
                           child: IconButton(

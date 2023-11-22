@@ -1,6 +1,6 @@
 name: pa_mobile
 description: Mobile Croix Rouge
-version: 1.0.3+202308061
+version: 1.0.3+202308062
 publish_to: none
 
 environment:
@@ -36,6 +36,7 @@ dependencies:
   extension_google_sign_in_as_googleapis_auth: ^2.0.11
   firebase_core: ^2.22.0
   firebase_messaging: ^14.7.4
+  videosdk: ^1.1.7
 
 
 dev_dependencies:

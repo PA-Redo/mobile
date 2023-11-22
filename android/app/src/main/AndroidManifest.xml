@@ -2,7 +2,7 @@
     package="croix.rouge.mobile.com">
     <uses-permission android:name="android.permission.INTERNET" />
    <application
-       android:label="mobile"
+       android:label="PA Croix-Rouge"
         android:name="${applicationName}"
         android:icon="@mipmap/launcher_icon">
         <activity

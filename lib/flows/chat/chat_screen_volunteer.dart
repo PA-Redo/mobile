@@ -62,7 +62,7 @@ class _ChatVolunteerScreenState extends State<ChatVolunteerScreen> {
                                 textAlign: TextAlign.right,
                               ),
                               subtitle: Text(
-                                "${message.date.year}-${message.date.month.toString().padLeft(2, '0')}-${message.date.day.toString().padLeft(2, '0')} ${message.date.hour.toString().padLeft(2, '0')}:${message.date.minute.toString().padLeft(2, '0')}",
+                                "${message.date.hour.toString().padLeft(2, '0')}:${message.date.minute.toString().padLeft(2, '0')} ${message.username}",
                                 textAlign: TextAlign.right,
                               ),
                             );
@@ -71,7 +71,8 @@ class _ChatVolunteerScreenState extends State<ChatVolunteerScreen> {
                             leading: const Icon(Icons.person),
                             title: Text(message.content),
                             subtitle: Text(
-                              "${message.date.year}-${message.date.month.toString().padLeft(2, '0')}-${message.date.day.toString().padLeft(2, '0')} ${message.date.hour.toString().padLeft(2, '0')}:${message.date.minute.toString().padLeft(2, '0')}",
+                              "${message.username} ${message.date.hour.toString().padLeft(2, '0')}:${message.date.minute.toString().padLeft(2, '0')}",
+                              //"${message.date.year}-${message.date.month.toString().padLeft(2, '0')}-${message.date.day.toString().padLeft(2, '0')} ${message.date.hour.toString().padLeft(2, '0')}:${message.date.minute.toString().padLeft(2, '0')}",
                             ),
                           );
                         },
@@ -108,12 +109,13 @@ class _ChatVolunteerScreenState extends State<ChatVolunteerScreen> {
                                 author: int.parse(snapshot.data.toString()),
                                 content: _controllerMessage.text,
                                 date: DateTime.now(),
+                                username: '',
                               ).encode(),
                             );
+                            print(response.statusCode);
                             if (response.statusCode == 200) {
-                              setState(() {
-                                _controllerMessage.clear();
-                              });
+                              _controllerMessage.clear();
+                              setState(() {});
                             }
                           },
                           icon: const Icon(Icons.send),

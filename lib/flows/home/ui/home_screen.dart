@@ -79,7 +79,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         'ROUGE',
                         style: textTitleStyle(Colors.redAccent),
                       ),
-                      const SizedBox(height: 50),
+                      const SizedBox(height: 5),
                       Text(
                         'Bienvenue',
                         style: textSubTitleStyle(),

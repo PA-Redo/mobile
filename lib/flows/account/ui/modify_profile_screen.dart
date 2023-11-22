@@ -138,7 +138,7 @@ class _ModifyProfileScreenState extends State<ModifyProfileScreen> {
       appBar: AppBar(
         title: Text(
           'Modify Profile',
-          style: Theme.of(context).textTheme.headlineLarge,
+          style: Theme.of(context).textTheme.headlineMedium,
         ),
       ),
       body: getBody(),
