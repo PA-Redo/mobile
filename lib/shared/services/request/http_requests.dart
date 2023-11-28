@@ -48,8 +48,7 @@ class HttpRequests {
           url,
           headers: await _defaultHeaders(headers),
           body: body,
-        )
-        .timeout(const Duration(seconds: 120));
+        );
   }
 
   static Future<Response> delete(
